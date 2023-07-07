@@ -12,7 +12,17 @@ Para executar o projeto, basta executar o comando `npm start` na pasta raiz do p
 
 ## Uso
 
-O mysql2 utiliza os dados já existentes das instâncias do MySQL locais em sua máquina para se conectar ao banco de dados. Para que a API funcione corretamente, é necessário que o MySQL esteja instalado e que as instâncias estejam rodando – além disso, certifique-se que as credencias do MySQL estejam corretas no arquivo [.env](.env) e que o banco de dados esteja criado e configurado corretamente de acordo com o repositório [sql](https://github.com/role-pi/sql).
+O mysql2 utiliza os dados já existentes das instâncias do MySQL locais em sua máquina para se conectar ao banco de dados. Para que a API funcione corretamente, é necessário que o MySQL esteja instalado e que as instâncias estejam rodando – além disso, certifique-se que o banco de dados esteja criado e configurado corretamente de acordo com o repositório [sql](https://github.com/role-pi/sql).
+
+Antes de executá-lo, crie um arquivo [.env] no diretório raíz do projeto com as seguintes informações, substituindo USUARIO, SENHA e PORTA com as suas credenciais e porta da instância do MySQL.
+
+```env
+# A porta para a API
+PORT= 3000
+ 
+# O endereço da base de dados
+DATABASE= "mysql://USUARIO:SENHA@localhost:PORTA/role"
+```
 
 Para utilizar a API, basta enviar requisições HTTP para o endereço `http://localhost:3000/` com os parâmetros necessários para cada rota.
 
@@ -24,3 +34,5 @@ Abaixo está uma lista das rotas já implementadas e seus respectivos parâmetro
     - idEvento: retorna usuários associados ao evento
 - [x] **/eventos** – Retorna todos os eventos cadastrados. Parâmetros:
     - idUsuario: retorna eventos associados ao usuário
+
+Se a API foi inicializada corretamente, você poderá, por exemplo, listar todos os usuários do primeiro evento com `http://localhost:3000/usuarios?idEvento=1` no próprio navegador.
