@@ -13,7 +13,7 @@ console.log('API funcionando!');
 
 const mysql = require('mysql2/promise');
  
-const client = mysql.createPool(process.env.CONNECTION_STRING);
+const client = mysql.createPool(process.env.DATABASE);
 
 async function selectUsuarios(idEvento) {
     var res;
