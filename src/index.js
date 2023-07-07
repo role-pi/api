@@ -48,6 +48,8 @@ async function selectEventos(idUsuario) {
     return res[0];
 }
 
+app.get('/', (req, res) => res.json({ message: 'A API está funcionando.' }));
+
 app.get('/usuarios', async (req, res) => {
     const usuarios = await selectUsuarios(req.query.id_evento);
     res.json(usuarios);
