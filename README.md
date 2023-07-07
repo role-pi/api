@@ -17,5 +17,10 @@ O mysql2 utiliza os dados já existentes das instâncias do MySQL locais em sua 
 Para utilizar a API, basta enviar requisições HTTP para o endereço `http://localhost:3000/` com os parâmetros necessários para cada rota.
 
 Abaixo está uma lista das rotas já implementadas e seus respectivos parâmetros, junto de rotas que ainda serão implementadas:
-    [ ] / (GET) Exibe uma mensagem de boas-vindas.
-    [ ] /usuarios (GET) 
+
+### GET
+- [x] **/** – Retorna uma mensagem de boas-vindas.
+- [x] **/usuarios** – Retorna todos os usuários cadastrados. Parâmetros:
+    - idEvento: retorna usuários associados ao evento
+- [x] **/eventos** – Retorna todos os eventos cadastrados. Parâmetros:
+    - idUsuario: retorna eventos associados ao usuário
