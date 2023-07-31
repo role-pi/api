@@ -9,7 +9,7 @@ app.use(express.json());
 app.get('/', (req, res) => res.json({ message: 'Funcionando!' }));
 
 app.listen(port);
-console.log('API funcionando!');
+console.log('API funcionando em '+port);
 
 const mysql = require('mysql2/promise');
  
