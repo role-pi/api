@@ -1,4 +1,4 @@
-export default class VerificationCode {
+export class OTPCode {
     constructor() {
         this.code = this.generateCode();
         this.expiration = this.generateExpiration();
@@ -12,3 +12,32 @@ export default class VerificationCode {
         return new Date().getTime() + 600000;
     }
 }
+
+// Verificar token JWT – se for válida, retorna o usuário
+export const verifyToken = (req, res, next) => {
+    if (req.headers &&
+        req.headers.authorization &&
+        req.headers.authorization.split(' ')[0] === 'JWT') {
+        jwt.verify(req.headers.authorization.split(' ')[1], process.env.API_SECRET, function (err, decode) {
+            if (err) {
+                req.user = undefined;
+            }
+            
+            var query = client.query(`
+            SELECT * FROM usuarios WHERE id_usuario = ?
+            `, [decode.id]).then((query) => {
+                if (query[0].length) {
+                    const user = query[0][0];
+                    req.user = user;
+                    next();
+                } else {
+                    req.user = undefined;
+                    next();
+                }
+            });
+        });
+    } else {
+        req.user = undefined;
+        next();
+    }
+};
