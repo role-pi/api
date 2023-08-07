@@ -11,15 +11,13 @@ app.use(express.json());
 app.use(express.urlencoded({
     extended: true
 }));
- 
-app.get('/', (req, res) => res.json({ message: 'Funcionando!' }));
 
 const port = process.env.PORT || 3000;
 
 app.listen(port);
 console.log('API funcionando em '+port);
 
-app.get('/', (req, res) => res.json({ message: 'A API está funcionando.' }));
+app.get('/', (req, res) => res.json({ message: 'Funcionando!' }));
 
 app.use('/usuario', usuario);
 app.use('/evento', evento);

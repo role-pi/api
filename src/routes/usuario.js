@@ -1,8 +1,10 @@
 import express from 'express';
 import client from '../db.js';
 
-import { OTPCode } from '../verification.js';
+import { OTPCode, verifyToken } from '../verification.js';
 import jwt from 'jsonwebtoken';
+
+import { sendMail } from '../email.js';
 
 const router = express.Router()
 
@@ -34,6 +36,8 @@ router.get('/', verifyToken, async (req, res) => {
 router.post('/signin', async(req, res) => {
     const { email } = req.body;
 
+    console.log("Sign in: " + email);
+
     var userID, existing;
     
     var query = await client.query(`
@@ -44,6 +48,7 @@ router.post('/signin', async(req, res) => {
         userID = query[0][0].id_usuario;
         existing = true;
     } else {
+        console
         var query = await client.query(`
         INSERT INTO usuarios (email) VALUES (?)
         `, [email]);
@@ -53,6 +58,8 @@ router.post('/signin', async(req, res) => {
     if (userID) {
         const code = new OTPCode();
         verificationCodes[userID] = code;
+
+        sendMail(email, 'Código de verificação', 'Seu código de verificação é: ' + code.code);
         
         res.json({ code: code.code, existing: existing });
     } else {
@@ -68,6 +75,8 @@ router.post('/login', verifyToken, async(req, res) => {
 // Verificar código de verificação
 router.post('/verify', async(req, res) => {
     const { email, code } = req.body;
+
+    console.log("Verify: " + email + ", " + code);
     
     var query = await client.query(`
     SELECT * FROM usuarios WHERE email = ?

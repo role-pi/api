@@ -1,3 +1,6 @@
+import jwt from 'jsonwebtoken';
+import client from './db.js';
+
 export class OTPCode {
     constructor() {
         this.code = this.generateCode();

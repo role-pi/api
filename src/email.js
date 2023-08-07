@@ -1,4 +1,4 @@
-let nodemailer = require('nodemailer');
+import nodemailer from 'nodemailer';
 
 let source = 'role.pi.app@gmail.com';
 
@@ -22,6 +22,6 @@ export function sendMail(email, subject, text) {
         if(err)
             console.log(err)
         else
-            console.log(info);
+            console.log("Sent email to " + email);
     });
 }
