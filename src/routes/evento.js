@@ -19,11 +19,39 @@ async function selectEventos(idUsuario) {
     return res[0];
 }
 
+async function addEvento(idUsuario, nome) {
+    var res;
+
+    if (!idUsuario) {
+        // res = await client.query('SELECT * FROM eventos');
+    } else {
+        res = await client.query(`
+            INSERT INTO eventos (nome) VALUES (?)
+        `, [nome]);
+
+        await client.query(`
+            INSERT INTO eventos_has_usuarios (eventos_id_evento, usuarios_id_usuario) VALUES (?, ?)
+        `, [res[0].insertId, idUsuario]);
+    }
+    
+    return res[0];
+}
+
 const router = express.Router()
 
 router.get('/', verifyToken, async (req, res) => {
     const eventos = await selectEventos(req.user.id_usuario);
+    console.log(eventos, req.user.id_usuario);
     res.json(eventos);
+});
+
+router.post('/', verifyToken, async (req, res) => {
+    const { nome } = req.body;
+
+    console.log("Add evento: " + nome);
+    const evento = await addEvento(req.user.id_usuario, nome);
+
+    res.json( { evento_id:  evento.insertId } );
 });
 
 export default router;

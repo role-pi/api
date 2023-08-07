@@ -84,14 +84,15 @@ router.post('/verify', async(req, res) => {
     
     if (query[0].length) {
         const user = query[0][0];
+        const storedCode = verificationCodes[user.id_usuario];
         
-        if (verificationCodes[user.id_usuario].code == code) {
-            // Gerar token JWT
+        if (storedCode.code == code && storedCode.expiration > new Date().getTime()) {
             var token = jwt.sign({
                 id: user.id_usuario
             }, process.env.API_SECRET, {
-                expiresIn: 86400
+                expiresIn: 60*60*24*365 // expires in 1 year
             });
+
             res.json({ user: user, token: token });
         } else {
             res.json({ error: 'Código inválido.' });

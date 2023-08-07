@@ -18,6 +18,8 @@ export class OTPCode {
 
 // Verificar token JWT – se for válida, retorna o usuário
 export const verifyToken = (req, res, next) => {
+    // console.log(req);
+
     if (req.headers &&
         req.headers.authorization &&
         req.headers.authorization.split(' ')[0] === 'JWT') {
