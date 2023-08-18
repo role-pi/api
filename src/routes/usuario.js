@@ -61,8 +61,10 @@ router.post('/signin', async(req, res) => {
 
         sendMail(email, 'Código de verificação', 'Seu código de verificação é: ' + code.code);
         
+        res.statusCode = existing ? 200 : 201;
         res.json({ code: code.code, existing: existing });
     } else {
+        res.statusCode = 400;
         res.json({ error: 'Erro ao criar usuário.' });
     }
 });
@@ -93,8 +95,10 @@ router.post('/verify', async(req, res) => {
                 expiresIn: 60*60*24*365 // expires in 1 year
             });
 
+            res.statusCode = 200;
             res.json({ user: user, token: token });
         } else {
+            res.statusCode = 400;
             res.json({ error: 'Código inválido.' });
         }
     }
