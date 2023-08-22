@@ -1,22 +1,6 @@
 import jwt from 'jsonwebtoken';
-import client from './db.js';
+import client from '../db.js';
 
-export class OTPCode {
-    constructor() {
-        this.code = this.generateCode();
-        this.expiration = this.generateExpiration();
-    }
-
-    generateCode() {
-        return Math.floor(Math.random() * 900000) + 100000;
-    }
-
-    generateExpiration() {
-        return new Date().getTime() + 600000;
-    }
-}
-
-// Verificar token JWT – se for válida, retorna o usuário
 export const verifyToken = (req, res, next) => {
     if (req.headers &&
         req.headers.authorization &&

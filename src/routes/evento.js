@@ -1,13 +1,11 @@
 import express from 'express';
 import client from '../db.js';
-import { verifyToken } from '../verification.js';
+import { verifyToken } from '../middlewares/verification.js';
 
 async function selectEventos(idUsuario) {
     var res;
 
-    if (!idUsuario) {
-        res = await client.query('SELECT * FROM eventos');
-    } else {
+    if (idUsuario) {
         res = await client.query(`
             SELECT eventos.*, IFNULL(SUM(transacoes.valor), 0) AS valor_total
             FROM eventos
@@ -20,9 +18,11 @@ async function selectEventos(idUsuario) {
             WHERE eventos_has_usuarios.usuarios_id_usuario = ?
             GROUP BY eventos.id_evento
         `, [idUsuario]);
+
+        return res[0];
     }
     
-    return res[0];
+    return [];
 }
 
 async function addEvento(idUsuario, nome) {
