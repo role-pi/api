@@ -1,9 +1,8 @@
 import { insertUsuario, selectUsuarios, selectUsuario } from "../services/usuario.js";
 
+import { sendMail } from '../utils/email.js';
 import { OTPCode } from '../utils/otp.js';
 import jwt from 'jsonwebtoken';
-
-import { sendMail } from '../utils/email.js';
 
 const verificationCodes = {};
 
