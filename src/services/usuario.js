@@ -23,3 +23,10 @@ async function selectUsuarios(idEvento) {
     
     return res[0];
 }
+
+async function selectUsuario(email) {
+    var res = await client.query(`
+    SELECT * FROM usuarios WHERE email = ?
+    `, [email]);
+    return res[0]
+} 
