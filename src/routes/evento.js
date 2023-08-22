@@ -1,5 +1,5 @@
 import express from 'express';
-import client from '../db.js';
+import client from '../utils/database.js';
 import { verifyToken } from '../middlewares/verification.js';
 
 async function selectEventos(idUsuario) {

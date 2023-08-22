@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import client from '../db.js';
+import client from '../utils/database.js';
 
 export const verifyToken = (req, res, next) => {
     if (req.headers &&

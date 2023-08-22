@@ -1,4 +1,4 @@
-import client from '../db.js';
+import client from '../utils/database.js';
 
 async function addUsuario(email) {
     var query = await client.query(`

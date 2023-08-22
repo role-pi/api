@@ -4,10 +4,10 @@ import { verifyToken } from '../middlewares/verification.js';
 import { OTPCode } from '../utils/otp.js';
 import jwt from 'jsonwebtoken';
 
-import { sendMail } from '../email.js';
+import { sendMail } from '../utils/email.js';
 
 // Temporário
-import client from '../db.js';
+import client from '../utils/database.js';
 
 const verificationCodes = {};
 

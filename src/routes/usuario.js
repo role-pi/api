@@ -1,5 +1,5 @@
 import express from 'express';
-import client from '../db.js';
+import client from '../utils/database.js';
 
 import { signInUsuario, getUsuarios, verifyUsuario } from "../controllers/usuario.js"
 
