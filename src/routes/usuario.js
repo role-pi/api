@@ -1,17 +1,12 @@
 import express from 'express';
-import client from '../utils/database.js';
-
-import { signInUsuario, getUsuarios, verifyUsuario } from "../controllers/usuario.js"
+import { signInUsuario, getUsuarios, verifyUsuario, loginUsuario } from "../controllers/usuario.js"
+import { verifyToken } from '../middlewares/verification.js';
 
 const router = express.Router()
 
 router.get('/', verifyToken, getUsuarios);
 router.post('/signin', signInUsuario);
 router.post('/verify', verifyUsuario);
-
-router.post('/login', verifyToken, async(req, res) => {
-    const { email } = req.body;
-    res.json({ email: email, user: req.user });
-});
+router.post('/login', verifyToken, loginUsuario);
 
 export default router;

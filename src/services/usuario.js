@@ -1,12 +1,5 @@
 import client from '../utils/database.js';
 
-async function addUsuario(email) {
-    var query = await client.query(`
-    INSERT INTO usuarios (email) VALUES (?)
-    `, [email]);
-    return query[0].insertId;
-}
-
 async function selectUsuarios(idEvento) {
     var res;
     
@@ -29,4 +22,11 @@ async function selectUsuario(email) {
     SELECT * FROM usuarios WHERE email = ?
     `, [email]);
     return res[0]
-} 
+}
+
+async function insertUsuario(email) {
+    var query = await client.query(`
+    INSERT INTO usuarios (email) VALUES (?)
+    `, [email]);
+    return query[0].insertId;
+}
