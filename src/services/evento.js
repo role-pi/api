@@ -38,3 +38,5 @@ async function insertEvento(idUsuario, nome) {
     
     return res[0];
 }
+
+export { selectEventos, insertEvento };

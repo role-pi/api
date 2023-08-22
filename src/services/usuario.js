@@ -30,3 +30,5 @@ async function insertUsuario(email) {
     `, [email]);
     return query[0].insertId;
 }
+
+export { selectUsuarios, selectUsuario, insertUsuario };

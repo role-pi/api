@@ -7,14 +7,14 @@ async function selecetInsumos(id_insumo) {
     return res[0];
 }
 
-router.get('/', verifyToken, async (req, res) => {
+// router.get('/', verifyToken, async (req, res) => {
     
-});
+// });
 
 
-router.post('/', verifyToken, async (req, res) => {
+// router.post('/', verifyToken, async (req, res) => {
    
     
-});
+// });
 
 export default router;

@@ -21,3 +21,5 @@ async function postEvento(req, res, next) {
         res.json( { error: "Houve um erro ao adicionar evento." } );
     }
 }
+
+export { getEventos, postEvento };

@@ -21,7 +21,7 @@ async function signInUsuario(req, res, next) {
     // Se o usuário existir, retorna o ID dele.
     // Se não existir, cria um novo usuário e retorna o ID dele.
     var usuario = selectUsuario(email);
-    if (query[0].length) {
+    if (usuario.length) {
         userID = query[0][0].id_usuario;
         existing = true;
     } else {
@@ -80,3 +80,5 @@ async function loginUsuario() {
     const { email } = req.body;
     res.json({ email: email, user: req.user });
 }
+
+export { getUsuarios, signInUsuario, verifyUsuario, loginUsuario };
