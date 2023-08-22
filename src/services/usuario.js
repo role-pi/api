@@ -1,12 +1,12 @@
 import client from '../utils/database.js';
 
 async function selectUsuarios(idEvento) {
-    var res;
+    var query;
     
     if (!idEvento) {
-        res = await client.query('SELECT * FROM usuarios');
+        query = await client.query('SELECT * FROM usuarios');
     } else {
-        res = await client.query(`
+        query = await client.query(`
         SELECT usuarios.* FROM usuarios
         INNER JOIN eventos_has_usuarios
         ON usuarios.id_usuario = eventos_has_usuarios.usuarios_id_usuario
@@ -14,14 +14,15 @@ async function selectUsuarios(idEvento) {
         `, [idEvento]);
     }
     
-    return res[0];
+    return query[0];
 }
 
 async function selectUsuario(email) {
-    var res = await client.query(`
+    var query = await client.query(`
     SELECT * FROM usuarios WHERE email = ?
     `, [email]);
-    return res[0]
+    if (!query[0].length) return null;
+    return query[0][0]
 }
 
 async function insertUsuario(email) {
