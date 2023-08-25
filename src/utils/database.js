@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const url = process.env.DATABASE_URL.replace('postgresql', 'mysql');
-const client = mysql.createPool(url);
+console.log(process.env.DATABASE_URL);
+const client = mysql.createPool(process.env.DATABASE_URL);
 
 export default client;
