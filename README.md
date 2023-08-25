@@ -28,7 +28,10 @@ Antes de executá-lo, crie um arquivo [.env] no diretório raíz do projeto com 
 PORT= 3000
  
 # O endereço da base de dados
-DATABASE= "mysql://USUARIO:SENHA@localhost:PORTA/role"
+DATABASE_URL= "mysql://USUARIO:SENHA@localhost:3306/role"
+
+# A chave secreta para o JWT – pode ser literalmente qualquer coisa
+API_SECRET= "abcdef"
 ```
 
 Para utilizar a API, basta enviar requisições HTTP para o endereço `http://localhost:3000/` com os parâmetros necessários para cada rota.
