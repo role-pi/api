@@ -30,7 +30,7 @@ PORT= 3000
 # O endereço da base de dados
 DATABASE_URL= "mysql://USUARIO:SENHA@localhost:3306/role"
 
-# A chave secreta para o JWT – pode ser literalmente qualquer coisa
+# A chave secreta para assinar o JWT – pode ser literalmente qualquer coisa
 API_SECRET= "abcdef"
 ```
 
