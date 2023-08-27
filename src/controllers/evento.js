@@ -18,10 +18,10 @@ async function getEventos(req, res, next) {
 async function postEvento(req, res, next) {
     if (req.user) {
         try {
-            const { nome } = req.body;
+            const { nome, emoji, cor1, cor2 } = req.body;
 
             console.log("Adicionar evento: " + nome);
-            const evento = await insertEvento(req.user.id_usuario, nome);
+            const evento = await insertEvento(req.user.id_usuario, nome, emoji, cor1, cor2);
             res.json(evento);
             return;
         } catch (error) {
