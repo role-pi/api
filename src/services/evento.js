@@ -28,7 +28,7 @@ async function insertEvento(idUsuario, nome, emoji, cor1, cor2) {
 
     if (idUsuario) {
         res = await client.query(`
-            INSERT INTO eventos (nome, emoji, cor_1, cor_2) VALUES (?)
+            INSERT INTO eventos (nome, emoji, cor_1, cor_2) VALUES (?, ?, ?, ?)
         `, [nome, emoji, cor1, cor2]);
 
         await client.query(`

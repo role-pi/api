@@ -25,6 +25,7 @@ async function postEvento(req, res, next) {
             res.json(evento);
             return;
         } catch (error) {
+            console.log(error);
             res.status(500);
             res.json({ error: "Ocorreu um erro ao adicionar o evento." });
         }
