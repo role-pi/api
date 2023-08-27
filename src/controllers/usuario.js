@@ -75,7 +75,7 @@ async function verifyUsuario(req, res, next) {
     res.json({ error: 'Código inválido.' });
 };
 
-async function loginUsuario() {
+async function loginUsuario(req, res, next) {
     const { email } = req.body;
     res.json({ email: email, user: req.user });
 }
