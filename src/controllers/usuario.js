@@ -30,17 +30,20 @@ async function signInUsuario(req, res, next) {
     
     // Se o usuário for criado ou existir, cria um código de verificação e envia por e-mail.
     // Se não existir, retorna um erro.
-    if (userID) {
+    if (!verificationCodes[userID] || verificationCodes[userID].expiration > new Date().getTime()) {
         const code = new OTPCode();
+        code.expiration = new Date().getTime() + (15 * 60 * 1000); // Defina a validade do código
+    
         verificationCodes[userID] = code;
-
+    
         // Envia o código por e-mail.
         sendMail(email, 'Código de verificação', 'Uma tentativa de login foi efetuada, para concluir Seu login insira o seguinte código de verificação: ' + code.code + 'Obrigada, Equipe ROle');
-        
+    }
         res.status(existing ? 200 : 201);
         res.json({ existing: existing });
         return;
-    }
+    
+    
 
     res.status(400);
     res.json({ error: 'Erro ao criar usuário.' });
