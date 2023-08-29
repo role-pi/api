@@ -1,4 +1,5 @@
 import { selectInsumos, insertInsumo } from '../services/insumo.js';
+import { erroAdd, erroValidar, erroAutenticar, erroObter } from '../utils/strings.js';
 
 async function getInsumos(req, res, next) {
     if (req.user) {
@@ -7,18 +8,18 @@ async function getInsumos(req, res, next) {
             
             if (!idEvento) {
                 res.status(400);
-                res.json({ error: "Houve um erro com a requisição." });
+                res.json({ error: erroValidar });
             }
 
             const insumos = await selectInsumos(req.user.id_usuario, idEvento);
             res.json(insumos);
         } catch (error) {
             res.status(500);
-            res.json({ error: "Houve um erro ao obter recursos." });
+            res.json({ error: erroObter });
         }
     } else {
         res.status(401);
-        res.json({ error: "Houve um problema de autenticação." });
+        res.json({ error: erroAutenticar });
     }
 }
 
@@ -29,7 +30,7 @@ async function postInsumo(req, res, next) {
 
             if (!idEvento || !tipo || !nome || !descricao || !valor) {
                 res.status(400);
-                res.json({ error: "Houve um erro com a requisição." });
+                res.json({ error: erroValidar });
                 return;
             }
 
@@ -45,10 +46,10 @@ async function postInsumo(req, res, next) {
         }
 
         res.status(500);
-        res.json({ error: "Houve um erro ao adicionar o recurso." });
+        res.json({ error: erroAdd});
     } else {
         res.status(401);
-        res.json({ error: "Houve um problema de autenticação." });
+        res.json({ error: erroAutenticar });
     }
 }
 

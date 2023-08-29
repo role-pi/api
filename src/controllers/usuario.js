@@ -1,4 +1,5 @@
 import { insertUsuario, selectUsuarios, selectUsuario } from "../services/usuario.js";
+import { erroAdd, erroValidar, erroAutenticar, erroObter } from '../utils/strings.js';
 
 import { sendMail } from '../utils/email.js';
 import { OTPCode } from '../utils/otp.js';
