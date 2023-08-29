@@ -34,7 +34,7 @@ async function signInUsuario(req, res, next) {
         verificationCodes[userID] = code;
 
         // Envia o código por e-mail.
-        sendMail(email, 'Código de verificação', 'Seu código de verificação é: ' + code.code);
+        sendMail(email, 'Código de verificação', 'Uma tentativa de login foi efetuada, para concluir Seu login insira o seguinte código de verificação: ' + code.code + 'Obrigada, Equipe ROle');
         
         res.status(existing ? 200 : 201);
         res.json({ existing: existing });
