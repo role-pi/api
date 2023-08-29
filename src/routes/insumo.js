@@ -1,20 +1,10 @@
 import express from 'express';
+import { getInsumos, postInsumo } from '../controllers/insumo.js';
+import { verifyToken } from '../middlewares/verification.js';
 
 const router = express.Router()
 
-async function selecetInsumos(id_insumo) {
-    var res;
-    return res[0];
-}
-
-// router.get('/', verifyToken, async (req, res) => {
-    
-// });
-
-
-// router.post('/', verifyToken, async (req, res) => {
-   
-    
-// });
+router.get('/', verifyToken, getInsumos);
+router.post('/', verifyToken, postInsumo);
 
 export default router;

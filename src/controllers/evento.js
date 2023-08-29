@@ -7,7 +7,7 @@ async function getEventos(req, res, next) {
             res.json(eventos);
         } catch (error) {
             res.status(500);
-            res.json({ error: "Ocorreu um erro ao obter eventos." });
+            res.json({ error: "Ocorreu um erro ao obter recursos." });
         }
     } else {
         res.status(401);
@@ -20,15 +20,25 @@ async function postEvento(req, res, next) {
         try {
             const { nome, emoji, cor1, cor2 } = req.body;
 
+            if (!nome || !emoji || !cor1 || !cor2) {
+                res.status(400);
+                res.json({ error: "Houve um erro com a requisição." });
+                return;
+            }
+
             console.log("Adicionar evento: " + nome);
             const evento = await insertEvento(req.user.id_usuario, nome, emoji, cor1, cor2);
-            res.json(evento);
-            return;
+
+            if (evento) {
+                res.json(evento);
+                return;
+            }
         } catch (error) {
             console.log(error);
-            res.status(500);
-            res.json({ error: "Ocorreu um erro ao adicionar o evento." });
         }
+
+        res.status(500);
+        res.json({ error: "Houve um erro ao adicionar o recurso." });
     } else {
         res.status(401);
         res.json({ error: "Houve um problema de autenticação." });

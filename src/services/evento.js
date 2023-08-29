@@ -31,6 +31,10 @@ async function insertEvento(idUsuario, nome, emoji, cor1, cor2) {
             INSERT INTO eventos (nome, emoji, cor_1, cor_2) VALUES (?, ?, ?, ?)
         `, [nome, emoji, cor1, cor2]);
 
+        if (!res) {
+            return null;
+        }
+
         await client.query(`
             INSERT INTO eventos_has_usuarios (eventos_id_evento, usuarios_id_usuario) VALUES (?, ?)
         `, [res[0].insertId, idUsuario]);
