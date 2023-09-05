@@ -15,6 +15,21 @@ async function getEventos(req, res, next) {
     }
 }
 
+async function deleteEvento(req, res, next) {
+    if (req.user) {
+        try {
+            const eventos = await deleteEvento(req.user.id_evento);
+            res.json(eventos);
+        } catch (error) {
+            res.status(500);
+            res.json({ error: "Ocorreu um erro ao obter recursos." });
+        }
+    } else {
+        res.status(401);
+        res.json({ error: "Houve um problema de autenticação." });
+    }
+}
+
 async function postEvento(req, res, next) {
     if (req.user) {
         try {
@@ -45,4 +60,4 @@ async function postEvento(req, res, next) {
     }
 }
 
-export { getEventos, postEvento };
+export { getEventos, postEvento, deleteEvento };

@@ -53,4 +53,4 @@ async function insertEvento(idUsuario, nome, emoji, cor1, cor2) {
     return res[0];
 }
 
-export { selectEventos, insertEvento };
+export { selectEventos, insertEvento, deleteEvento };
