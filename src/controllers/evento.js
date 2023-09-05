@@ -1,4 +1,5 @@
 import { selectEventos, insertEvento } from '../services/evento.js';
+import { erroAdd, erroValidar, erroAutenticar, erroObter } from '../utils/strings.js';
 
 async function getEventos(req, res, next) {
     if (req.user) {
@@ -7,26 +8,26 @@ async function getEventos(req, res, next) {
             res.json(eventos);
         } catch (error) {
             res.status(500);
-            res.json({ error: "Ocorreu um erro ao obter recursos." });
+            res.json({ error: erroObter });
         }
     } else {
         res.status(401);
-        res.json({ error: "Houve um problema de autenticação." });
+        res.json({ error: erroAutenticar });
     }
 }
 
 async function deleteEvento(req, res, next) {
     if (req.user) {
         try {
-            const eventos = await deleteEvento(req.user.id_evento);
+            const eventos = await deleteEvento(req.user.id_usuario, req.user.id_evento);
             res.json(eventos);
         } catch (error) {
             res.status(500);
-            res.json({ error: "Ocorreu um erro ao obter recursos." });
+            res.json({ error: erroObter });
         }
     } else {
         res.status(401);
-        res.json({ error: "Houve um problema de autenticação." });
+        res.json({ error: erroAutenticar });
     }
 }
 
@@ -37,7 +38,7 @@ async function postEvento(req, res, next) {
 
             if (!nome || !emoji || !cor1 || !cor2) {
                 res.status(400);
-                res.json({ error: "Houve um erro com a requisição." });
+                res.json({ error: erroValidar });
                 return;
             }
 
@@ -53,10 +54,10 @@ async function postEvento(req, res, next) {
         }
 
         res.status(500);
-        res.json({ error: "Houve um erro ao adicionar o recurso." });
+        res.json({ error: erroAdd });
     } else {
         res.status(401);
-        res.json({ error: "Houve um problema de autenticação." });
+        res.json({ error: erroAutenticar });
     }
 }
 

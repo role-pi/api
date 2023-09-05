@@ -22,14 +22,20 @@ async function selectEventos(idUsuario) {
     
     return [];
 }
-async function deleteEvento(idEvento){
+
+async function deleteEvento(idUsuario, idEvento){
     var res;
 
     if(idUsuario){
-        res= await client.query(
-            'DELETE FROM eventos WHERE id_evento = (?);',[idEvento]
-        )
+        res = await client.query(`
+            DELETE eventos
+            FROM eventos
+            INNER JOIN eventos_has_usuarios ON eventos.id_evento = eventos_has_usuarios.eventos_id_evento
+            WHERE eventos.id_evento = ?
+            AND eventos_has_usuarios.usuarios_id_usuario = ?;
+        `, [idEvento, idUsuario])
     }
+
     return[];
 }
 

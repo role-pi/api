@@ -37,12 +37,11 @@ async function signInUsuario(req, res, next) {
         verificationCodes[userID] = code;
     
         // Envia o código por e-mail.
-        sendMail(email, 'Código de verificação', 'Uma tentativa de login foi efetuada, para concluir Seu login insira o seguinte código de verificação: ' + code.code + 'Obrigada, Equipe ROle');
+        sendMail(email, 'Código de verificação', 'Uma tentativa de login foi efetuada. Para concluir seu login, insira o seguinte código de verificação: ' + code.code + '\n\n Não compartilhe o seu código com ninguém. \n\nValeu por usar o nosso aplicativo! \n\n- equipe rolê');
     }
         res.status(existing ? 200 : 201);
         res.json({ existing: existing });
         return;
-    
     
 
     res.status(400);
