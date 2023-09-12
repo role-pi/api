@@ -19,7 +19,8 @@ async function getEventos(req, res, next) {
 async function deleteEvento(req, res, next) {
     if (req.user) {
         try {
-            const eventos = await removeEvento(req.user.id_usuario, req.id_evento);
+            console.log("Remover evento " + req.params.id_evento + " de usuário " + req.user.id_usuario);
+            const eventos = await removeEvento(req.user.id_usuario, req.params.id_evento);
             res.json(eventos);
         } catch (error) {
             res.status(500);

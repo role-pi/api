@@ -7,5 +7,5 @@ const router = express.Router()
 
 router.get('/', verifyToken, getEventos);
 router.post('/', verifyToken, postEvento);
-router.delete('/', verifyToken, deleteEvento);
+router.delete('/:id_evento', verifyToken, deleteEvento);
 export default router;
