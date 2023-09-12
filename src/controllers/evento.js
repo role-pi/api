@@ -1,4 +1,4 @@
-import { selectEventos, insertEvento } from '../services/evento.js';
+import { selectEventos, insertEvento, removeEvento } from '../services/evento.js';
 import { erroAdd, erroValidar, erroAutenticar, erroObter } from '../utils/strings.js';
 
 async function getEventos(req, res, next) {
@@ -19,7 +19,7 @@ async function getEventos(req, res, next) {
 async function deleteEvento(req, res, next) {
     if (req.user) {
         try {
-            const eventos = await deleteEvento(req.user.id_usuario, req.user.id_evento);
+            const eventos = await removeEvento(req.user.id_usuario, req.id_evento);
             res.json(eventos);
         } catch (error) {
             res.status(500);

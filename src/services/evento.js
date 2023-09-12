@@ -23,10 +23,10 @@ async function selectEventos(idUsuario) {
     return [];
 }
 
-async function deleteEvento(idUsuario, idEvento){
+async function removeEvento(idUsuario, idEvento){
     var res;
 
-    if(idUsuario){
+    if (idUsuario) {
         res = await client.query(`
             DELETE eventos
             FROM eventos
@@ -36,7 +36,7 @@ async function deleteEvento(idUsuario, idEvento){
         `, [idEvento, idUsuario])
     }
 
-    return[];
+    return res;
 }
 
 async function insertEvento(idUsuario, nome, emoji, cor1, cor2) {
@@ -59,4 +59,4 @@ async function insertEvento(idUsuario, nome, emoji, cor1, cor2) {
     return res[0];
 }
 
-export { selectEventos, insertEvento, deleteEvento };
+export { selectEventos, insertEvento, removeEvento };
