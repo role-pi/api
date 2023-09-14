@@ -4,7 +4,7 @@ import { verifyToken } from '../middlewares/verification.js';
 
 const router = express.Router()
 
-router.get('/', verifyToken, getInsumos);
+router.get('/:id_evento', verifyToken, getInsumos);
 router.post('/', verifyToken, postInsumo);
 
 export default router;

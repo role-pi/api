@@ -1,14 +1,16 @@
 import client from '../utils/database.js';
 
-async function selectInsumos(idEvento) {
+async function selectInsumos(idUsuario, idEvento) {
     var res;
 
     if (idEvento) {
         res = await client.query(`
-            SELECT *
+            SELECT insumos.*
             FROM insumos
-            WHERE eventos_id_evento = ?
-        `, [idEvento]);
+            INNER JOIN eventos_has_usuarios ON insumos.eventos_id_evento = eventos_has_usuarios.eventos_id_evento
+            WHERE eventos_has_usuarios.usuarios_id_usuario = ? AND
+            insumos.eventos_id_evento = ?
+        `, [idUsuario, idEvento]);
 
         return res[0];
     }

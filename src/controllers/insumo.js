@@ -4,7 +4,7 @@ import { erroAdd, erroValidar, erroAutenticar, erroObter } from '../utils/string
 async function getInsumos(req, res, next) {
     if (req.user) {
         try {
-            const { idEvento } = req.body;
+            const idEvento = req.params.id_evento;
             
             if (!idEvento) {
                 res.status(400);
