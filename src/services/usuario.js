@@ -32,6 +32,13 @@ async function insertUsuario(email) {
     return query[0].insertId;
 }
 
+async function updateUsuario(idUsuario, nome, email) {
+    var query = await client.query(`
+    UPDATE usuarios SET nome = ?, email = ? WHERE id_usuario = ?
+    `, [nome, email, idUsuario]);
+    return query[0].insertId;
+}
+
 async function updateProfilePictureURL(idUsuario, url) {
     var query = await client.query(`
     UPDATE usuarios SET foto_de_perfil_url = ? WHERE id_usuario = ?
@@ -39,4 +46,11 @@ async function updateProfilePictureURL(idUsuario, url) {
     return query[0].insertId;
 }
 
-export { selectUsuarios, selectUsuario, insertUsuario, updateProfilePictureURL };
+async function removeUsuario(idUsuario) {
+    var query = await client.query(`
+    DELETE FROM usuarios WHERE id_usuario = ?
+    `, [idUsuario]);
+    return query[0].insertId;
+}
+
+export { selectUsuarios, selectUsuario, insertUsuario, updateUsuario, updateProfilePictureURL, removeUsuario };

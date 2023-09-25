@@ -11,8 +11,7 @@ async function getInsumos(req, res, next) {
                 res.json({ error: erroValidar });
             }
 
-            const insumos = await selectInsumos(req.user.id_usuario, idEvento);
-            res.json(insumos);
+            res.json(await selectInsumos(req.user.id_usuario, idEvento));
         } catch (error) {
             res.status(500);
             res.json({ error: erroObter });
@@ -27,6 +26,7 @@ async function postInsumo(req, res, next) {
     if (req.user) {
         try {
             const { idEvento, tipo, nome, descricao, valor } = req.body;
+            const idUsuario = req.user.id_usuario;
 
             if (!idEvento || !tipo || !nome || !descricao || !valor) {
                 res.status(400);
@@ -34,8 +34,8 @@ async function postInsumo(req, res, next) {
                 return;
             }
 
-            console.log("Adicionar insumo: " + nome);
-            const insumo = await insertInsumo(req.user.id_usuario, idEvento, tipo, nome, descricao, valor);
+            console.log("Adicionar insumo " + nome);
+            const insumo = await insertInsumo(idUsuario, idEvento, tipo, nome, descricao, valor);
 
             if (insumo) {
                 res.json(insumo);
@@ -46,7 +46,7 @@ async function postInsumo(req, res, next) {
         }
 
         res.status(500);
-        res.json({ error: erroAdd});
+        res.json({ error: erroAdd });
     } else {
         res.status(401);
         res.json({ error: erroAutenticar });

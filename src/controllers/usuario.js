@@ -1,4 +1,4 @@
-import { insertUsuario, selectUsuarios, selectUsuario, updateProfilePictureURL } from "../services/usuario.js";
+import { insertUsuario, selectUsuarios, selectUsuario, removeUsuario, updateUsuario, updateProfilePictureURL } from "../services/usuario.js";
 import { erroAdd, erroValidar, erroAutenticar, erroObter, erroUpload } from '../utils/strings.js';
 
 import { sendMail } from '../utils/email.js';
@@ -7,8 +7,44 @@ import jwt from 'jsonwebtoken';
 
 const verificationCodes = {};
 
-async function getUsuarios(idEvento) {
+async function getUsuarios(req, res, next) {
+    const idEvento = req.params.id_evento;
     return await selectUsuarios(idEvento);
+}
+
+async function putUsuario(req, res, next) {
+    if (req.user) {
+        try {
+            const idUsuario = req.user.id_usuario;
+            console.log("Atualizar usuario " + idUsuario);
+
+            const { nome, email } = req.params.body;
+            res.json(await updateUsuario(idUsuario, nome, email));
+        } catch {
+            res.status(500);
+            res.json({ error: erroObter });
+        }
+    } else {
+        res.status(401);
+        res.json({ error: erroAutenticar });
+    }
+}
+
+async function deleteUsuario(req, res, next) {
+    if (req.user) {
+        try {
+            const idUsuario = req.user.id_usuario;
+            console.log("Remover usuario " + idUsuario);
+
+            res.json(await removeUsuario(idUsuario));
+        } catch (error) {
+            res.status(500);
+            res.json({ error: erroObter });
+        }
+    } else {
+        res.status(401);
+        res.json({ error: erroAutenticar });
+    }
 }
 
 async function signInUsuario(req, res, next) {
@@ -38,11 +74,11 @@ async function signInUsuario(req, res, next) {
     
         // Envia o código por e-mail.
         sendMail(email, 'Código de verificação', 'Uma tentativa de login foi efetuada. Para concluir, insira o código: ' + code.code + '\n\n Não compartilhe o seu código com ninguém. \n\nValeu por usar o nosso aplicativo! \n\n- equipe rolê');
-    }
+
         res.status(existing ? 200 : 201);
         res.json({ existing: existing });
         return;
-    
+    }
 
     res.status(400);
     res.json({ error: 'Erro ao criar usuário.' });
@@ -95,4 +131,4 @@ async function uploadProfilePicture(req, res, next) {
     }
 }
 
-export { getUsuarios, signInUsuario, verifyUsuario, loginUsuario, uploadProfilePicture};
+export { getUsuarios, updateUsuario, signInUsuario, verifyUsuario, loginUsuario, deleteUsuario, putUsuario, uploadProfilePicture};

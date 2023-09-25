@@ -1,11 +1,10 @@
-import { selectEventos, insertEvento, removeEvento } from '../services/evento.js';
+import { selectEventos, insertEvento, removeEvento, updateEvento } from '../services/evento.js';
 import { erroAdd, erroValidar, erroAutenticar, erroObter } from '../utils/strings.js';
 
 async function getEventos(req, res, next) {
     if (req.user) {
         try {
-            const eventos = await selectEventos(req.user.id_usuario);
-            res.json(eventos);
+            res.json(await selectEventos(req.user.id_usuario));
         } catch (error) {
             res.status(500);
             res.json({ error: erroObter });
@@ -19,9 +18,28 @@ async function getEventos(req, res, next) {
 async function deleteEvento(req, res, next) {
     if (req.user) {
         try {
-            console.log("Remover evento " + req.params.id_evento + " de usuário " + req.user.id_usuario);
-            const eventos = await removeEvento(req.user.id_usuario, req.params.id_evento);
-            res.json(eventos);
+            const idEvento = req.params.id_evento;
+            const idUsuario = req.user.id_usuario;
+
+            console.log("Remover evento " + idEvento + " com usuário " + idUsuario);
+            res.json(await removeEvento(idUsuario, idEvento));
+        } catch (error) {
+            res.status(500);
+            res.json({ error: erroObter });
+        }
+    } else {
+        res.status(401);
+        res.json({ error: erroAutenticar });
+    }
+}
+
+async function putEvento(req, res, next) {
+    if (req.user) {
+        try {
+            const { idEvento, nome, emoji, cor1, cor2, dataInicio, dataFim } = req.body;
+
+            console.log("Atualizar evento " + nome);
+            res.json(await updateEvento(idEvento, nome, emoji, cor1, cor2, dataInicio, dataFim));
         } catch (error) {
             res.status(500);
             res.json({ error: erroObter });
@@ -43,7 +61,7 @@ async function postEvento(req, res, next) {
                 return;
             }
 
-            console.log("Adicionar evento: " + nome);
+            console.log("Adicionar evento " + nome);
             const evento = await insertEvento(req.user.id_usuario, nome, emoji, cor1, cor2);
 
             if (evento) {
@@ -62,4 +80,4 @@ async function postEvento(req, res, next) {
     }
 }
 
-export { getEventos, postEvento, deleteEvento };
+export { getEventos, postEvento, putEvento, deleteEvento };

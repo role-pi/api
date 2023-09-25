@@ -23,6 +23,55 @@ async function selectEventos(idUsuario) {
     return [];
 }
 
+async function insertEvento(idUsuario, nome, emoji, cor1, cor2) {
+    var res;
+
+    if (idUsuario) {
+        res = await client.query(`
+            INSERT INTO eventos (nome, emoji, cor_1, cor_2) VALUES (?, ?, ?, ?)
+        `, [nome, emoji, cor1, cor2]);
+
+        if (!res) {
+            return null;
+        }
+
+        await client.query(`
+            INSERT INTO eventos_has_usuarios (eventos_id_evento, usuarios_id_usuario) VALUES (?, ?)
+        `, [res[0].insertId, idUsuario]);
+        return res[0];
+    }
+    
+    return null;
+}
+
+async function updateEvento(idEvento, nome, emoji, cor1, cor2, dataInicio, dataFim) {
+    var res;
+
+    if (idEvento) {
+        if (dataInicio && dataFim) {
+            res = await client.query(`
+                UPDATE eventos SET nome = ?, emoji = ?, cor_1 = ?, cor_2 = ?, data_inicio = ?, data_fim = ? WHERE id_evento = ?
+            `, [nome, emoji, cor1, cor2, dataInicio, dataFim, idEvento]);
+        } else if (dataInicio) {
+            res = await client.query(`
+                UPDATE eventos SET nome = ?, emoji = ?, cor_1 = ?, cor_2 = ?, data_inicio = ? WHERE id_evento = ?
+            `, [nome, emoji, cor1, cor2, dataInicio, idEvento]);
+        }  else if (dataFim) {
+            res = await client.query(`
+                UPDATE eventos SET nome = ?, emoji = ?, cor_1 = ?, cor_2 = ?, data_fim = ? WHERE id_evento = ?
+            `, [nome, emoji, cor1, cor2, dataFim, idEvento]);
+        } else {
+            res = await client.query(`
+                UPDATE eventos SET nome = ?, emoji = ?, cor_1 = ?, cor_2 = ? WHERE id_evento = ?
+            `, [nome, emoji, cor1, cor2, idEvento]);
+        }
+
+        return res[0];
+    }
+    
+    return null;
+}
+
 async function removeEvento(idUsuario, idEvento){
     var res;
 
@@ -39,24 +88,4 @@ async function removeEvento(idUsuario, idEvento){
     return res;
 }
 
-async function insertEvento(idUsuario, nome, emoji, cor1, cor2) {
-    var res;
-
-    if (idUsuario) {
-        res = await client.query(`
-            INSERT INTO eventos (nome, emoji, cor_1, cor_2) VALUES (?, ?, ?, ?)
-        `, [nome, emoji, cor1, cor2]);
-
-        if (!res) {
-            return null;
-        }
-
-        await client.query(`
-            INSERT INTO eventos_has_usuarios (eventos_id_evento, usuarios_id_usuario) VALUES (?, ?)
-        `, [res[0].insertId, idUsuario]);
-    }
-    
-    return res[0];
-}
-
-export { selectEventos, insertEvento, removeEvento };
+export { selectEventos, insertEvento, updateEvento, removeEvento };
