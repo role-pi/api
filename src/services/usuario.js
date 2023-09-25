@@ -32,4 +32,11 @@ async function insertUsuario(email) {
     return query[0].insertId;
 }
 
-export { selectUsuarios, selectUsuario, insertUsuario };
+async function updateProfilePictureURL(idUsuario, url) {
+    var query = await client.query(`
+    UPDATE usuarios SET foto_de_perfil_url = ? WHERE id_usuario = ?
+    `, [url, idUsuario]);
+    return query[0].insertId;
+}
+
+export { selectUsuarios, selectUsuario, insertUsuario, updateProfilePictureURL };

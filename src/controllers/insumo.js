@@ -1,5 +1,5 @@
 import { selectInsumos, insertInsumo } from '../services/insumo.js';
-import { erroAdd, erroValidar, erroAutenticar, erroObter } from '../utils/strings.js';
+import { erroAdd, erroValidar, erroAutenticar, erroObter, erroUpload } from '../utils/strings.js';
 
 async function getInsumos(req, res, next) {
     if (req.user) {

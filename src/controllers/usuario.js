@@ -1,5 +1,5 @@
-import { insertUsuario, selectUsuarios, selectUsuario } from "../services/usuario.js";
-import { erroAdd, erroValidar, erroAutenticar, erroObter } from '../utils/strings.js';
+import { insertUsuario, selectUsuarios, selectUsuario, updateProfilePictureURL } from "../services/usuario.js";
+import { erroAdd, erroValidar, erroAutenticar, erroObter, erroUpload } from '../utils/strings.js';
 
 import { sendMail } from '../utils/email.js';
 import { OTPCode } from '../utils/otp.js';
@@ -83,4 +83,16 @@ async function loginUsuario(req, res, next) {
     res.json({ email: email, user: req.user });
 }
 
-export { getUsuarios, signInUsuario, verifyUsuario, loginUsuario };
+async function uploadProfilePicture(req, res, next) {
+    let url = req.file.location;
+
+    if (url) {
+        await updateProfilePictureURL(req.user.id_usuario, url)
+
+        res.json({ url: url });
+    } else {
+        res.json({ error: erroUpload });
+    }
+}
+
+export { getUsuarios, signInUsuario, verifyUsuario, loginUsuario, uploadProfilePicture};
