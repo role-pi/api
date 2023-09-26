@@ -117,8 +117,7 @@ async function verifyUsuario(req, res, next) {
 };
 
 async function loginUsuario(req, res, next) {
-    const { email } = req.body;
-    res.json({ email: email, user: req.user });
+    res.json({ user: req.user });
 }
 
 async function uploadProfilePicture(req, res, next) {
