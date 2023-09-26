@@ -5,7 +5,6 @@ import usuario from './routes/usuario.js';
 import evento from './routes/evento.js';
 import insumo from './routes/insumo.js';
 
-
 const app = express();
 dotenv.config();
 
