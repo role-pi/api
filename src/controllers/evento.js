@@ -4,11 +4,16 @@ import { erroAdd, erroValidar, erroAutenticar, erroObter } from '../utils/string
 async function getEventos(req, res, next) {
     if (req.user) {
         try {
+            const idEvento = req.params.id_evento;
+            const idUsuario = req.user.id_usuario;
+
             let resultado;
-            if (req.params.id_evento) {
-                resultado = await selectEventos(req.user.id_usuario)
+            if (idEvento) {
+                resultado = await selectEvento(idUsuario, idEvento);
+                console.log("Obter evento " + idEvento + " com usuário " + idUsuario);
             } else {
-                resultado = await selectEvento(req.user.id_usuario, req.params.id_evento);
+                resultado = await selectEventos(idUsuario);
+                console.log("Obter eventos com usuário " + idUsuario);
             }
 
             res.status(200);

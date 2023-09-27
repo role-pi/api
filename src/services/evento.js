@@ -41,10 +41,11 @@ async function selectEvento(idUsuario, idEvento) {
             GROUP BY eventos.id_evento
         `, [idUsuario, idEvento]);
 
-        return res[0][0];
+        if (!query[0].length) return null;
+        return query[0][0]
     }
     
-    return [];
+    return null;
 }
 
 async function insertEvento(idUsuario, nome, emoji, cor1, cor2) {
