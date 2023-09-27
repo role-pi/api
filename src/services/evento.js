@@ -41,8 +41,8 @@ async function selectEvento(idUsuario, idEvento) {
             GROUP BY eventos.id_evento
         `, [idUsuario, idEvento]);
 
-        if (!query[0].length) return null;
-        return query[0][0]
+        if (!res[0].length) return null;
+        return res[0][0];
     }
     
     return null;
