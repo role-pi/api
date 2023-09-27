@@ -124,12 +124,16 @@ async function uploadProfilePicture(req, res, next) {
     let url = req.file.location;
 
     if (url) {
+        console.log("Atualizar foto de perfil: " + url + " para usuário " + req.user.id_usuario);
         await updateProfilePictureURL(req.user.id_usuario, url)
 
+        res.status(200);
         res.json({ url: url });
-    } else {
-        res.json({ error: erroUpload });
+        return;
     }
+
+    res.status(400);
+    res.json({ error: erroUpload });
 }
 
 export { getUsuarios, updateUsuario, signInUsuario, verifyUsuario, loginUsuario, deleteUsuario, putUsuario, uploadProfilePicture};
