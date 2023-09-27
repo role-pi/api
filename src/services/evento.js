@@ -23,6 +23,30 @@ async function selectEventos(idUsuario) {
     return [];
 }
 
+async function selectEvento(idUsuario, idEvento) {
+    var res;
+
+    if (idUsuario) {
+        res = await client.query(`
+            SELECT eventos.*, IFNULL(SUM(transacoes.valor), 0) AS valor_total
+            FROM eventos
+            INNER JOIN eventos_has_usuarios
+            ON eventos.id_evento = eventos_has_usuarios.eventos_id_evento
+            LEFT JOIN insumos
+            ON eventos.id_evento = insumos.eventos_id_evento
+            LEFT JOIN transacoes
+            ON insumos.id_insumo = transacoes.insumos_id_insumo
+            WHERE eventos_has_usuarios.usuarios_id_usuario = ? AND
+            eventos.id_evento = ?
+            GROUP BY eventos.id_evento
+        `, [idUsuario, idEvento]);
+
+        return res[0][0];
+    }
+    
+    return [];
+}
+
 async function insertEvento(idUsuario, nome, emoji, cor1, cor2) {
     var res;
 
@@ -88,4 +112,4 @@ async function removeEvento(idUsuario, idEvento){
     return res;
 }
 
-export { selectEventos, insertEvento, updateEvento, removeEvento };
+export { selectEventos, selectEvento, insertEvento, updateEvento, removeEvento };
