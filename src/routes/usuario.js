@@ -13,6 +13,6 @@ router.delete('/:id_usuario', verifyToken, deleteUsuario);
 // Sign in
 router.post('/signin', signInUsuario);
 router.post('/verify', verifyUsuario);
-router.post('/image', upload.single('profile'), uploadProfilePicture);
+router.post('/image', verifyUsuario, upload.single('profile'), uploadProfilePicture);
 
 export default router;
