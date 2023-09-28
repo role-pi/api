@@ -35,7 +35,7 @@ async function insertInsumo(idUsuario, idEvento, tipo, nome, descricao, valor) {
         `, [valor, new Date().toISOString().slice(0, 19).replace("T", " "), idUsuario, res1[0].insertId]);
     }
     
-    return [res2[0], res1[0]];
+    return [res1[0], res2[0]];
 }
 
 export { selectInsumos, insertInsumo }
