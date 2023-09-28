@@ -26,8 +26,12 @@ async function getInsumos(req, res, next) {
 async function postInsumo(req, res, next) {
     if (req.user) {
         try {
+            console.log(req.body);
             const { idEvento, tipo, nome, descricao, valor } = req.body;
             const idUsuario = req.user.id_usuario;
+
+
+            console.log(idEvento, tipo, nome, descricao, valor);
 
             if (!idEvento || !tipo || !nome || !descricao || !valor) {
                 res.status(400);
