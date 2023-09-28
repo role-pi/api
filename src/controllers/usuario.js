@@ -8,8 +8,21 @@ import jwt from 'jsonwebtoken';
 const verificationCodes = {};
 
 async function getUsuarios(req, res, next) {
-    const idEvento = req.params.id_evento;
-    return await selectUsuarios(idEvento);
+    if (req.user) {
+        try {
+            // const idUsuario = req.user.id_usuario;
+            const idEvento = req.params.id_evento;
+            console.log("Requerer usuários de evento " + idEvento);
+
+            res.json(await selectUsuarios(idEvento));
+        } catch {
+            res.status(500);
+            res.json({ error: erroObter });
+        }
+    } else {
+        res.status(401);
+        res.json({ error: erroAutenticar });
+    }
 }
 
 async function putUsuario(req, res, next) {

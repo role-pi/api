@@ -5,13 +5,14 @@ async function getInsumos(req, res, next) {
     if (req.user) {
         try {
             const idEvento = req.params.id_evento;
+            const idUsuario = req.user.id_usuario;
             
             if (!idEvento) {
                 res.status(400);
                 res.json({ error: erroValidar });
             }
 
-            res.json(await selectInsumos(req.user.id_usuario, idEvento));
+            res.json(await selectInsumos(idUsuario, idEvento));
         } catch (error) {
             res.status(500);
             res.json({ error: erroObter });
