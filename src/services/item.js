@@ -18,11 +18,11 @@ async function selectItems(idUsuario, idEvento) {
     return [];
 }
 
-async function insertItem(idUsuario, idEvento, tipo, nome) {
+async function insertItem(idUsuario, idEvento, tipo, nome, descricao, valor) {
     if (idUsuario, idEvento, tipo, nome) {
         var res1 = await client.query(`
-            UPDATE insumos set (tipo, nome, descricao) VALUES (?, ?, ?)
-        `, [tipo, nome, descricao]);
+            INSERT INTO insumos (tipo, nome, descricao, eventos_id_evento) VALUES (?, ?, ?, ?)
+        `, [tipo, nome, descricao, idEvento]);
         
         if (!res1) {
             return null;
@@ -59,7 +59,7 @@ async function removeItem(idUsuario, idInsumo) {
 
     if (idUsuario, idInsumo) {
         res = await client.query(`
-            DELETE insumos WHERE id_insumo = ?
+            DELETE FROM insumos WHERE id_insumo = ?
         `, [idInsumo]);
     }
 

@@ -1,9 +1,9 @@
 import express from 'express';
 import dotenv from 'dotenv';
 
-import usuario from './routes/usuario.js';
-import evento from './routes/evento.js';
-import insumo from './routes/insumo.js';
+import user from './routes/user.js';
+import event from './routes/event.js';
+import item from './routes/item.js';
 
 const app = express();
 dotenv.config();
@@ -20,6 +20,6 @@ console.log('API funcionando em '+port);
 
 app.get('/', (req, res) => res.json({ message: 'Funcionando!' }));
 
-app.use('/usuario', usuario);
-app.use('/evento', evento);
-app.use('/insumo', insumo);
+app.use('/usuario', user);
+app.use('/evento', event);
+app.use('/insumo', item);

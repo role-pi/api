@@ -7,7 +7,7 @@ async function selectEvents(idUsuario) {
         res = await client.query(`
                 SELECT eventos.*,
                 IFNULL(SUM(transacoes.valor), 0) AS valor_total,
-                usuarios.fotos_de_perfil
+                usuarios.fotos_de_perfil AS fotos_de_perfil
             FROM eventos
             JOIN eventos_has_usuarios ON eventos.id_evento = eventos_has_usuarios.eventos_id_evento
             LEFT JOIN insumos ON eventos.id_evento = insumos.eventos_id_evento

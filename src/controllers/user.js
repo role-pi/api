@@ -31,9 +31,11 @@ async function putUser(req, res, next) {
             const idUsuario = req.user.id_usuario;
             console.log("Atualizar usuario " + idUsuario);
 
-            const { nome, email } = req.params.body;
-            res.json(await updateUsuario(idUsuario, nome, email));
-        } catch {
+            const { nome, email } = req.body;
+            const resultado = await updateUsuario(idUsuario, nome, email)
+            res.status(200);
+            res.json(resultado);
+        } catch(error) {
             res.status(500);
             res.json({ error: putError });
         }
@@ -81,7 +83,7 @@ async function signInUser(req, res, next) {
     
     // Se o usuário for criado ou existir, cria um código de verificação e envia por e-mail.
     // Se não existir, retorna um erro.
-    if (!code|| code.expiration > new Date().getTime()) {
+    if (!code || code.expiration > new Date().getTime()) {
         code = new OTPCode();
         code.expiration = new Date().getTime() + (15 * 60 * 1000); // Defina a validade do código
     
@@ -111,7 +113,7 @@ async function verifyUser(req, res, next) {
     if (usuario) {
         const storedCode = verificationCodes[usuario.id_usuario];
         
-        if ((storedCode.code == code && storedCode.expiration > new Date().getTime()) || code == 123456) {
+        if ((storedCode && (storedCode.code == code && storedCode.expiration > new Date().getTime())) || code == 123456) {
             // Cria um token de acesso com o ID do usuário e o segredo da API. O token expira em 1 ano.
             var token = jwt.sign({
                 id: usuario.id_usuario
