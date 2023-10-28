@@ -1,5 +1,5 @@
 import { insertUser, selectUsers, selectUser, removeUser, updateUsuario, updateProfilePictureURL } from "../services/usuario.js";
-import { erroAdd, erroUpdate, erroDelete, erroValidar, erroAutenticar, erroObter, erroUpload } from '../utils/strings.js';
+import { postError, putError, deleteError, validationError, authenticationError, getError, uploadError } from '../utils/strings.js';
 
 import { sendMail } from '../utils/email.js';
 import { OTPCode } from '../utils/otp.js';
@@ -7,7 +7,7 @@ import jwt from 'jsonwebtoken';
 
 const verificationCodes = {};
 
-async function getUsuarios(req, res, next) {
+async function getUsers(req, res, next) {
     if (req.user) {
         try {
             // const idUsuario = req.user.id_usuario;
@@ -17,15 +17,15 @@ async function getUsuarios(req, res, next) {
             res.json(await selectUsers(idEvento));
         } catch {
             res.status(500);
-            res.json({ error: erroObter });
+            res.json({ error: getError });
         }
     } else {
         res.status(401);
-        res.json({ error: erroAutenticar });
+        res.json({ error: authenticationError });
     }
 }
 
-async function putUsuario(req, res, next) {
+async function putUser(req, res, next) {
     if (req.user) {
         try {
             const idUsuario = req.user.id_usuario;
@@ -35,15 +35,15 @@ async function putUsuario(req, res, next) {
             res.json(await updateUsuario(idUsuario, nome, email));
         } catch {
             res.status(500);
-            res.json({ error: erroUpdate });
+            res.json({ error: putError });
         }
     } else {
         res.status(401);
-        res.json({ error: erroAutenticar });
+        res.json({ error: authenticationError });
     }
 }
 
-async function deleteUsuario(req, res, next) {
+async function deleteUser(req, res, next) {
     if (req.user) {
         try {
             const idUsuario = req.user.id_usuario;
@@ -52,15 +52,15 @@ async function deleteUsuario(req, res, next) {
             res.json(await removeUser(idUsuario));
         } catch (error) {
             res.status(500);
-            res.json({ error: erroDelete });
+            res.json({ error: deleteError });
         }
     } else {
         res.status(401);
-        res.json({ error: erroAutenticar });
+        res.json({ error: authenticationError });
     }
 }
 
-async function signInUsuario(req, res, next) {
+async function signInUser(req, res, next) {
     const { email } = req.body;
 
     console.log("Sign in: " + email);
@@ -99,7 +99,7 @@ async function signInUsuario(req, res, next) {
     // res.json({ error: 'Erro ao criar usuário.' });
 };
 
-async function verifyUsuario(req, res, next) {
+async function verifyUser(req, res, next) {
     const { email, code } = req.body;
 
     console.log("Verify: " + email + ", " + code);
@@ -129,7 +129,7 @@ async function verifyUsuario(req, res, next) {
     res.json({ error: 'Código inválido.' });
 };
 
-async function loginUsuario(req, res, next) {
+async function loginUser(req, res, next) {
     res.json({ user: req.user });
 }
 
@@ -146,7 +146,7 @@ async function uploadProfilePicture(req, res, next) {
     }
 
     res.status(400);
-    res.json({ error: erroUpload });
+    res.json({ error: uploadError });
 }
 
-export { getUsuarios, updateUsuario, signInUsuario, verifyUsuario, loginUsuario, deleteUsuario, putUsuario, uploadProfilePicture};
+export { getUsers, updateUsuario, signInUser, verifyUser, loginUser, deleteUser, putUser, uploadProfilePicture};

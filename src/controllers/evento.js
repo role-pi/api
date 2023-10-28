@@ -1,7 +1,7 @@
 import { selectEvents, selectEvent, insertEvent, removeEvent, updateEvent } from '../services/evento.js';
-import { erroAdd, erroUpdate, erroDelete, erroValidar, erroAutenticar, erroObter } from '../utils/strings.js';
+import { postError, putError, deleteError, validationError, authenticationError, getError } from '../utils/strings.js';
 
-async function getEventos(req, res, next) {
+async function getEvents(req, res, next) {
     if (req.user) {
         try {
             const idEvento = req.params.id_evento;
@@ -24,14 +24,14 @@ async function getEventos(req, res, next) {
         }
 
         res.status(500);
-        res.json({ error: erroObter });
+        res.json({ error: getError });
     } else {
         res.status(401);
-        res.json({ error: erroAutenticar });
+        res.json({ error: authenticationError });
     }
 }
 
-async function deleteEvento(req, res, next) {
+async function deleteEvent(req, res, next) {
     if (req.user) {
         try {
             const idEvento = req.params.id_evento;
@@ -48,14 +48,14 @@ async function deleteEvento(req, res, next) {
         }
 
         res.status(500);
-        res.json({ error: erroDelete });
+        res.json({ error: deleteError });
     } else {
         res.status(401);
-        res.json({ error: erroAutenticar });
+        res.json({ error: authenticationError });
     }
 }
 
-async function putEvento(req, res, next) {
+async function putEvent(req, res, next) {
     if (req.user) {
         try {
             const { idEvento, nome, emoji, cor1, cor2, dataInicio, dataFim } = req.body;
@@ -71,21 +71,21 @@ async function putEvento(req, res, next) {
         }
 
         res.status(500);
-        res.json({ error: erroUpdate });
+        res.json({ error: putError });
     } else {
         res.status(401);
-        res.json({ error: erroAutenticar });
+        res.json({ error: authenticationError });
     }
 }
 
-async function postEvento(req, res, next) {
+async function postEvent(req, res, next) {
     if (req.user) {
         try {
             const { nome, emoji, cor1, cor2 } = req.body;
 
             if (!nome || !emoji || !cor1 || !cor2) {
                 res.status(400);
-                res.json({ error: erroValidar });
+                res.json({ error: validationError });
                 return;
             }
 
@@ -102,11 +102,11 @@ async function postEvento(req, res, next) {
         }
 
         res.status(500);
-        res.json({ error: erroAdd });
+        res.json({ error: postError });
     } else {
         res.status(401);
-        res.json({ error: erroAutenticar });
+        res.json({ error: authenticationError });
     }
 }
 
-export { getEventos, postEvento, putEvento, deleteEvento };
+export { getEvents, postEvent, putEvent, deleteEvent };

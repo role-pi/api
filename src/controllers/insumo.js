@@ -1,7 +1,7 @@
 import { selectItems, insertItem } from '../services/insumo.js';
-import { erroAdd, erroUpdate, erroDelete, erroValidar, erroAutenticar, erroObter, erroUpload } from '../utils/strings.js';
+import { postError, putError, deleteError, validationError, authenticationError, getError, uploadError } from '../utils/strings.js';
 
-async function getInsumos(req, res, next) {
+async function getItems(req, res, next) {
     if (req.user) {
         try {
             const idEvento = req.params.id_evento;
@@ -9,21 +9,21 @@ async function getInsumos(req, res, next) {
             
             if (!idEvento) {
                 res.status(400);
-                res.json({ error: erroValidar });
+                res.json({ error: validationError });
             }
 
             res.json(await selectItems(idUsuario, idEvento));
         } catch (error) {
             res.status(500);
-            res.json({ error: erroObter });
+            res.json({ error: getError });
         }
     } else {
         res.status(401);
-        res.json({ error: erroAutenticar });
+        res.json({ error: authenticationError });
     }
 }
 
-async function deleteInsumo(req, res, next) {
+async function deleteItem(req, res, next) {
     if (req.user) {
         try {
             const idInsumo = req.params.id_insumo;
@@ -40,14 +40,14 @@ async function deleteInsumo(req, res, next) {
         }
 
         res.status(500);
-        res.json({ error: erroDelete });
+        res.json({ error: deleteError });
     } else {
         res.status(401);
-        res.json({ error: erroAutenticar });
+        res.json({ error: authenticationError });
     }
 }
 
-async function putInsumo(req, res, next) {
+async function putItem(req, res, next) {
     if (req.user) {
         try {
             const { idInsumo, tipo, nome, descricao } = req.body;
@@ -55,7 +55,7 @@ async function putInsumo(req, res, next) {
 
             if (!idInsumo || !tipo || !nome || !descricao) {
                 res.status(400);
-                res.json({ error: erroValidar });
+                res.json({ error: validationError });
                 return;
             }
 
@@ -71,14 +71,14 @@ async function putInsumo(req, res, next) {
         }
 
         res.status(500);
-        res.json({ error: erroUpdate });
+        res.json({ error: putError });
     } else {
         res.status(401);
-        res.json({ error: erroAutenticar });
+        res.json({ error: authenticationError });
     }
 }
 
-async function postInsumo(req, res, next) {
+async function postItem(req, res, next) {
     if (req.user) {
         try {
             const { idEvento, tipo, nome, descricao, valor } = req.body;
@@ -86,7 +86,7 @@ async function postInsumo(req, res, next) {
 
             if (!idEvento || !tipo || !nome || !descricao || !valor) {
                 res.status(400);
-                res.json({ error: erroValidar });
+                res.json({ error: validationError });
                 return;
             }
 
@@ -102,11 +102,11 @@ async function postInsumo(req, res, next) {
         }
 
         res.status(500);
-        res.json({ error: erroAdd });
+        res.json({ error: postError });
     } else {
         res.status(401);
-        res.json({ error: erroAutenticar });
+        res.json({ error: authenticationError });
     }
 }
 
-export { getInsumos, postInsumo, putInsumo, deleteInsumo };
+export { getItems, postItem, putItem, deleteItem };

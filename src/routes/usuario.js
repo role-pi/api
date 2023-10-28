@@ -1,18 +1,18 @@
 import express from 'express';
-import { signInUsuario, getUsuarios, putUsuario, verifyUsuario, loginUsuario, deleteUsuario, uploadProfilePicture } from "../controllers/usuario.js"
+import { signInUser, getUsers, putUser, verifyUser, loginUser, deleteUser, uploadProfilePicture } from "../controllers/usuario.js"
 import { verifyToken } from '../middlewares/verification.js';
 import { upload } from '../services/imagens.js';
 
 const router = express.Router()
 
-router.get('/:id_evento', verifyToken, getUsuarios);
-router.get('/', verifyToken, loginUsuario);
-router.put('/', verifyToken, putUsuario);
-router.delete('/:id_usuario', verifyToken, deleteUsuario);
+router.get('/:id_evento', verifyToken, getUsers);
+router.get('/', verifyToken, loginUser);
+router.put('/', verifyToken, putUser);
+router.delete('/:id_usuario', verifyToken, deleteUser);
 
 // Sign in
-router.post('/signin', signInUsuario);
-router.post('/verify', verifyUsuario);
+router.post('/signin', signInUser);
+router.post('/verify', verifyUser);
 
 // Upload profile picture
 router.post('/image', verifyToken, upload.single('profile'), uploadProfilePicture);
