@@ -5,16 +5,25 @@ async function selectEvents(idUsuario) {
 
     if (idUsuario) {
         res = await client.query(`
-            SELECT eventos.*, IFNULL(SUM(transacoes.valor), 0) AS valor_total
+                SELECT eventos.*,
+                IFNULL(SUM(transacoes.valor), 0) AS valor_total,
+                usuarios.fotos_de_perfil
             FROM eventos
-            INNER JOIN eventos_has_usuarios
-            ON eventos.id_evento = eventos_has_usuarios.eventos_id_evento
-            LEFT JOIN insumos
-            ON eventos.id_evento = insumos.eventos_id_evento
-            LEFT JOIN transacoes
-            ON insumos.id_insumo = transacoes.insumos_id_insumo
-            WHERE eventos_has_usuarios.usuarios_id_usuario = ?
-            GROUP BY eventos.id_evento
+            JOIN eventos_has_usuarios ON eventos.id_evento = eventos_has_usuarios.eventos_id_evento
+            LEFT JOIN insumos ON eventos.id_evento = insumos.eventos_id_evento
+            LEFT JOIN transacoes ON insumos.id_insumo = transacoes.insumos_id_insumo
+            LEFT JOIN (
+                SELECT eventos_has_usuarios.eventos_id_evento, GROUP_CONCAT(usuarios.foto_de_perfil_url) AS fotos_de_perfil
+                FROM eventos_has_usuarios
+                JOIN usuarios ON eventos_has_usuarios.usuarios_id_usuario = usuarios.id_usuario
+                GROUP BY eventos_has_usuarios.eventos_id_evento
+            ) usuarios ON eventos.id_evento = usuarios.eventos_id_evento
+            WHERE eventos.id_evento IN (
+                SELECT eventos_id_evento
+                FROM eventos_has_usuarios
+                WHERE eventos_has_usuarios.usuarios_id_usuario = ?
+            )
+            GROUP BY eventos.id_evento;
         `, [idUsuario]);
 
         return res[0];
