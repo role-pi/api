@@ -1,5 +1,5 @@
 import { selectEventos, selectEvento, insertEvento, removeEvento, updateEvento } from '../services/evento.js';
-import { erroAdd, erroValidar, erroAutenticar, erroObter } from '../utils/strings.js';
+import { erroAdd, erroUpdate, erroDelete, erroValidar, erroAutenticar, erroObter } from '../utils/strings.js';
 
 async function getEventos(req, res, next) {
     if (req.user) {
@@ -48,7 +48,7 @@ async function deleteEvento(req, res, next) {
         }
 
         res.status(500);
-        res.json({ error: erroObter });
+        res.json({ error: erroDelete });
     } else {
         res.status(401);
         res.json({ error: erroAutenticar });
@@ -71,7 +71,7 @@ async function putEvento(req, res, next) {
         }
 
         res.status(500);
-        res.json({ error: erroObter });
+        res.json({ error: erroUpdate });
     } else {
         res.status(401);
         res.json({ error: erroAutenticar });

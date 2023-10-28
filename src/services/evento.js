@@ -91,7 +91,9 @@ async function updateEvento(idEvento, nome, emoji, cor1, cor2, dataInicio, dataF
             `, [nome, emoji, cor1, cor2, idEvento]);
         }
 
-        return res[0];
+        if (res) {
+            return res[0];
+        }
     }
     
     return null;

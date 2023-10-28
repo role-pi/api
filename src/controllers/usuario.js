@@ -1,5 +1,5 @@
 import { insertUsuario, selectUsuarios, selectUsuario, removeUsuario, updateUsuario, updateProfilePictureURL } from "../services/usuario.js";
-import { erroAdd, erroValidar, erroAutenticar, erroObter, erroUpload } from '../utils/strings.js';
+import { erroAdd, erroUpdate, erroDelete, erroValidar, erroAutenticar, erroObter, erroUpload } from '../utils/strings.js';
 
 import { sendMail } from '../utils/email.js';
 import { OTPCode } from '../utils/otp.js';
@@ -35,7 +35,7 @@ async function putUsuario(req, res, next) {
             res.json(await updateUsuario(idUsuario, nome, email));
         } catch {
             res.status(500);
-            res.json({ error: erroObter });
+            res.json({ error: erroUpdate });
         }
     } else {
         res.status(401);
@@ -52,7 +52,7 @@ async function deleteUsuario(req, res, next) {
             res.json(await removeUsuario(idUsuario));
         } catch (error) {
             res.status(500);
-            res.json({ error: erroObter });
+            res.json({ error: erroDelete });
         }
     } else {
         res.status(401);
