@@ -1,4 +1,4 @@
-import { insertUser, selectUsers, selectUser, removeUser, updateUsuario, updateProfilePictureURL } from "../services/usuario.js";
+import { insertUser, selectUsers, selectUser, removeUser, updateUsuario, updateProfilePictureURL } from "../services/user.js";
 import { postError, putError, deleteError, validationError, authenticationError, getError, uploadError } from '../utils/strings.js';
 
 import { sendMail } from '../utils/email.js';

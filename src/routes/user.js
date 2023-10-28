@@ -1,7 +1,7 @@
 import express from 'express';
-import { signInUser, getUsers, putUser, verifyUser, loginUser, deleteUser, uploadProfilePicture } from "../controllers/usuario.js"
+import { signInUser, getUsers, putUser, verifyUser, loginUser, deleteUser, uploadProfilePicture } from "../controllers/user.js"
 import { verifyToken } from '../middlewares/verification.js';
-import { upload } from '../services/imagens.js';
+import { upload } from '../services/images.js';
 
 const router = express.Router()
 

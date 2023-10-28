@@ -1,4 +1,4 @@
-import { selectItems, insertItem } from '../services/insumo.js';
+import { selectItems, insertItem } from '../services/item.js';
 import { postError, putError, deleteError, validationError, authenticationError, getError, uploadError } from '../utils/strings.js';
 
 async function getItems(req, res, next) {

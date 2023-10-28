@@ -1,4 +1,4 @@
-import { selectEvents, selectEvent, insertEvent, removeEvent, updateEvent } from '../services/evento.js';
+import { selectEvents, selectEvent, insertEvent, removeEvent, updateEvent } from '../services/event.js';
 import { postError, putError, deleteError, validationError, authenticationError, getError } from '../utils/strings.js';
 
 async function getEvents(req, res, next) {
