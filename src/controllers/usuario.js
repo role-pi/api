@@ -1,4 +1,4 @@
-import { insertUsuario, selectUsuarios, selectUsuario, removeUsuario, updateUsuario, updateProfilePictureURL } from "../services/usuario.js";
+import { insertUser, selectUsers, selectUser, removeUser, updateUsuario, updateProfilePictureURL } from "../services/usuario.js";
 import { erroAdd, erroUpdate, erroDelete, erroValidar, erroAutenticar, erroObter, erroUpload } from '../utils/strings.js';
 
 import { sendMail } from '../utils/email.js';
@@ -14,7 +14,7 @@ async function getUsuarios(req, res, next) {
             const idEvento = req.params.id_evento;
             console.log("Requerer usuários de evento " + idEvento);
 
-            res.json(await selectUsuarios(idEvento));
+            res.json(await selectUsers(idEvento));
         } catch {
             res.status(500);
             res.json({ error: erroObter });
@@ -49,7 +49,7 @@ async function deleteUsuario(req, res, next) {
             const idUsuario = req.user.id_usuario;
             console.log("Remover usuario " + idUsuario);
 
-            res.json(await removeUsuario(idUsuario));
+            res.json(await removeUser(idUsuario));
         } catch (error) {
             res.status(500);
             res.json({ error: erroDelete });
@@ -69,12 +69,12 @@ async function signInUsuario(req, res, next) {
 
     // Se o usuário existir, retorna o ID dele.
     // Se não existir, cria um novo usuário e retorna o ID dele.
-    var usuario = await selectUsuario(email);
+    var usuario = await selectUser(email);
     if (usuario) {
         userID = usuario.id_usuario;
         existing = true;
     } else {
-        userID = await insertUsuario(email);
+        userID = await insertUser(email);
     }
 
     var code = verificationCodes[userID];
@@ -107,7 +107,7 @@ async function verifyUsuario(req, res, next) {
     // Se o usuário existir, verifica o código.
     // Se o código for válido, retorna o usuário e um token.
     // Se o código for inválido, retorna um erro.
-    var usuario = await selectUsuario(email);
+    var usuario = await selectUser(email);
     if (usuario) {
         const storedCode = verificationCodes[usuario.id_usuario];
         

@@ -1,6 +1,6 @@
 import client from '../utils/database.js';
 
-async function selectUsuarios(idEvento) {
+async function selectUsers(idEvento) {
     var query;
     
     if (!idEvento) {
@@ -17,7 +17,7 @@ async function selectUsuarios(idEvento) {
     return query[0];
 }
 
-async function selectUsuario(email) {
+async function selectUser(email) {
     var query = await client.query(`
     SELECT * FROM usuarios WHERE email = ?
     `, [email]);
@@ -25,7 +25,7 @@ async function selectUsuario(email) {
     return query[0][0]
 }
 
-async function insertUsuario(email) {
+async function insertUser(email) {
     var query = await client.query(`
     INSERT INTO usuarios (email) VALUES (?)
     `, [email]);
@@ -46,11 +46,11 @@ async function updateProfilePictureURL(idUsuario, url) {
     return query[0].insertId;
 }
 
-async function removeUsuario(idUsuario) {
+async function removeUser(idUsuario) {
     var query = await client.query(`
     DELETE FROM usuarios WHERE id_usuario = ?
     `, [idUsuario]);
     return query[0].insertId;
 }
 
-export { selectUsuarios, selectUsuario, insertUsuario, updateUsuario, updateProfilePictureURL, removeUsuario };
+export { selectUsers, selectUser, insertUser, updateUsuario, updateProfilePictureURL, removeUser };

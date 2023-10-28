@@ -1,6 +1,6 @@
 import client from '../utils/database.js';
 
-async function selectEventos(idUsuario) {
+async function selectEvents(idUsuario) {
     var res;
 
     if (idUsuario) {
@@ -23,7 +23,7 @@ async function selectEventos(idUsuario) {
     return [];
 }
 
-async function selectEvento(idUsuario, idEvento) {
+async function selectEvent(idUsuario, idEvento) {
     var res;
 
     if (idUsuario) {
@@ -48,7 +48,7 @@ async function selectEvento(idUsuario, idEvento) {
     return null;
 }
 
-async function insertEvento(idUsuario, nome, emoji, cor1, cor2) {
+async function insertEvent(idUsuario, nome, emoji, cor1, cor2) {
     var res;
 
     if (idUsuario) {
@@ -69,7 +69,7 @@ async function insertEvento(idUsuario, nome, emoji, cor1, cor2) {
     return null;
 }
 
-async function updateEvento(idEvento, nome, emoji, cor1, cor2, dataInicio, dataFim) {
+async function updateEvent(idEvento, nome, emoji, cor1, cor2, dataInicio, dataFim) {
     var res;
 
     if (idEvento) {
@@ -99,7 +99,7 @@ async function updateEvento(idEvento, nome, emoji, cor1, cor2, dataInicio, dataF
     return null;
 }
 
-async function removeEvento(idUsuario, idEvento){
+async function removeEvent(idUsuario, idEvento){
     var res;
 
     if (idUsuario) {
@@ -115,4 +115,4 @@ async function removeEvento(idUsuario, idEvento){
     return res;
 }
 
-export { selectEventos, selectEvento, insertEvento, updateEvento, removeEvento };
+export { selectEvents, selectEvent, insertEvent, updateEvent, removeEvent };

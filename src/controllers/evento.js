@@ -1,4 +1,4 @@
-import { selectEventos, selectEvento, insertEvento, removeEvento, updateEvento } from '../services/evento.js';
+import { selectEvents, selectEvent, insertEvent, removeEvent, updateEvent } from '../services/evento.js';
 import { erroAdd, erroUpdate, erroDelete, erroValidar, erroAutenticar, erroObter } from '../utils/strings.js';
 
 async function getEventos(req, res, next) {
@@ -9,10 +9,10 @@ async function getEventos(req, res, next) {
 
             let resultado;
             if (idEvento) {
-                resultado = await selectEvento(idUsuario, idEvento);
+                resultado = await selectEvent(idUsuario, idEvento);
                 console.log("Obter evento " + idEvento + " com usuário " + idUsuario);
             } else {
-                resultado = await selectEventos(idUsuario);
+                resultado = await selectEvents(idUsuario);
                 console.log("Obter eventos com usuário " + idUsuario);
             }
 
@@ -39,7 +39,7 @@ async function deleteEvento(req, res, next) {
 
             console.log("Remover evento " + idEvento + " com usuário " + idUsuario);
             
-            const resultado = await removeEvento(idUsuario, idEvento);
+            const resultado = await removeEvent(idUsuario, idEvento);
             res.status(200);
             res.json(resultado);
             return;
@@ -62,7 +62,7 @@ async function putEvento(req, res, next) {
 
             console.log("Atualizar evento " + nome);
 
-            const resultado = await updateEvento(idEvento, nome, emoji, cor1, cor2, dataInicio, dataFim);
+            const resultado = await updateEvent(idEvento, nome, emoji, cor1, cor2, dataInicio, dataFim);
             res.status(200);
             res.json(resultado);
             return;
@@ -90,7 +90,7 @@ async function postEvento(req, res, next) {
             }
 
             console.log("Adicionar evento " + nome);
-            const evento = await insertEvento(req.user.id_usuario, nome, emoji, cor1, cor2);
+            const evento = await insertEvent(req.user.id_usuario, nome, emoji, cor1, cor2);
 
             if (evento) {
                 res.status(200);

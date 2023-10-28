@@ -1,4 +1,4 @@
-import { selectInsumos, insertInsumo } from '../services/insumo.js';
+import { selectItems, insertItem } from '../services/insumo.js';
 import { erroAdd, erroUpdate, erroDelete, erroValidar, erroAutenticar, erroObter, erroUpload } from '../utils/strings.js';
 
 async function getInsumos(req, res, next) {
@@ -12,7 +12,7 @@ async function getInsumos(req, res, next) {
                 res.json({ error: erroValidar });
             }
 
-            res.json(await selectInsumos(idUsuario, idEvento));
+            res.json(await selectItems(idUsuario, idEvento));
         } catch (error) {
             res.status(500);
             res.json({ error: erroObter });
@@ -31,7 +31,7 @@ async function deleteInsumo(req, res, next) {
 
             console.log("Remover insumo " + idInsumo + " com usuário " + idUsuario);
             
-            const resultado = await removeInsumo(idUsuario, idInsumo);
+            const resultado = await removeItem(idUsuario, idInsumo);
             res.status(200);
             res.json(resultado);
             return;
@@ -60,7 +60,7 @@ async function putInsumo(req, res, next) {
             }
 
             console.log("Editar insumo " + nome);
-            const insumo = await updateInsumo(idUsuario, idInsumo, tipo, nome, descricao);
+            const insumo = await updateItem(idUsuario, idInsumo, tipo, nome, descricao);
 
             if (insumo) {
                 res.json(insumo);
@@ -91,7 +91,7 @@ async function postInsumo(req, res, next) {
             }
 
             console.log("Adicionar insumo " + nome);
-            const insumo = await insertInsumo(idUsuario, idEvento, tipo, nome, descricao, valor);
+            const insumo = await insertItem(idUsuario, idEvento, tipo, nome, descricao, valor);
 
             if (insumo) {
                 res.json(insumo);

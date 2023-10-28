@@ -1,6 +1,6 @@
 import client from '../utils/database.js';
 
-async function selectInsumos(idUsuario, idEvento) {
+async function selectItems(idUsuario, idEvento) {
     var res;
 
     if (idEvento) {
@@ -18,7 +18,7 @@ async function selectInsumos(idUsuario, idEvento) {
     return [];
 }
 
-async function insertInsumo(idUsuario, idEvento, tipo, nome) {
+async function insertItem(idUsuario, idEvento, tipo, nome) {
     if (idUsuario, idEvento, tipo, nome) {
         var res1 = await client.query(`
             UPDATE insumos set (tipo, nome, descricao) VALUES (?, ?, ?)
@@ -40,7 +40,7 @@ async function insertInsumo(idUsuario, idEvento, tipo, nome) {
     return null;
 }
 
-async function updateInsumo(idUsuario, idInsumo, tipo, nome, descricao) {
+async function updateItem(idUsuario, idInsumo, tipo, nome, descricao) {
     if (idUsuario, idInsumo, tipo, nome, descricao) {
         var res = await client.query(`
             UPDATE insumos SET tipo = ?, nome = ?, descricao = ? WHERE id_insumo = ?
@@ -54,7 +54,7 @@ async function updateInsumo(idUsuario, idInsumo, tipo, nome, descricao) {
     return null;
 }
 
-async function removeInsumo(idUsuario, idInsumo) {
+async function removeItem(idUsuario, idInsumo) {
     var res;
 
     if (idUsuario, idInsumo) {
@@ -66,4 +66,4 @@ async function removeInsumo(idUsuario, idInsumo) {
     return res;
 }
 
-export { selectInsumos, insertInsumo, updateInsumo, removeInsumo }
+export { selectItems, insertItem, updateItem, removeItem }
