@@ -1,32 +1,10 @@
-import { selectItem, selectItems, insertItem, removeItem, updateItem } from '../services/item.js';
+import { selectTransactions, insertTransaction, removeTransaction, updateTransaction } from '../services/transaction.js';
 import { postError, putError, deleteError, validationError, authenticationError, getError, uploadError } from '../utils/strings.js';
 
-async function getItem(req, res, next) {
+async function getTransaction(req, res, next) {
     if (req.user) {
         try {
-            const idEvento = req.params.id_insumo;
-            const idUsuario = req.user.id_usuario;
-            
-            if (!idInsumo) {
-                res.status(400);
-                res.json({ error: validationError });
-            }
-
-            res.json(await selectItem(idUsuario, idInsumo));
-        } catch (error) {
-            res.status(500);
-            res.json({ error: getError });
-        }
-    } else {
-        res.status(401);
-        res.json({ error: authenticationError });
-    }
-}
-
-async function getItems(req, res, next) {
-    if (req.user) {
-        try {
-            const idEvento = req.params.id_evento;
+            const idTransaction = req.params.id_transaction;
             const idUsuario = req.user.id_usuario;
             
             if (!idEvento) {
@@ -34,7 +12,8 @@ async function getItems(req, res, next) {
                 res.json({ error: validationError });
             }
 
-            res.json(await selectItems(idUsuario, idEvento));
+            const transactions = await selectTransaction(idUsuario, idTransaction);
+            res.json(transactions);
         } catch (error) {
             res.status(500);
             res.json({ error: getError });
@@ -45,17 +24,40 @@ async function getItems(req, res, next) {
     }
 }
 
-async function deleteItem(req, res, next) {
+async function getTransactions(req, res, next) {
     if (req.user) {
         try {
-            const idInsumo = req.params.id_insumo;
+            const idInsumo = req.params.idInsumo;
+            const idUsuario = req.user.id_usuario;
+            
+            if (!idEvento) {
+                res.status(400);
+                res.json({ error: validationError });
+            }
+
+            const transactions = await selectTransactions(idUsuario, idInsumo);
+            res.json(transactions);
+        } catch (error) {
+            res.status(500);
+            res.json({ error: getError });
+        }
+    } else {
+        res.status(401);
+        res.json({ error: authenticationError });
+    }
+}
+
+async function deleteTransaction(req, res, next) {
+    if (req.user) {
+        try {
+            const idTransaction = req.params.id_transaction;
             const idUsuario = req.user.id_usuario;
 
-            console.log("Remover insumo " + idInsumo + " com usuário " + idUsuario);
+            console.log("Remover transação " + idTransaction + " com usuário " + idUsuario);
             
-            const resultado = await removeItem(idUsuario, idInsumo);
+            const result = await removeTransaction(idUsuario, idTransaction);
             res.status(200);
-            res.json(resultado);
+            res.json(result);
             return;
         } catch (error) {
             console.log(error);
@@ -69,23 +71,23 @@ async function deleteItem(req, res, next) {
     }
 }
 
-async function putItem(req, res, next) {
+async function putTransaction(req, res, next) {
     if (req.user) {
         try {
-            const { idInsumo, tipo, nome, descricao } = req.body;
+            const { idTransaction, valor, data, novoIdUsuario } = req.body;
             const idUsuario = req.user.id_usuario;
 
-            if (!idInsumo || !tipo || !nome || !descricao) {
+            if (!idTransaction || !valor || !data || !novoIdUsuario) {
                 res.status(400);
                 res.json({ error: validationError });
                 return;
             }
 
-            console.log("Editar insumo " + nome);
-            const insumo = await updateItem(idUsuario, idInsumo, tipo, nome, descricao);
+            console.log("Editar transação " + nome);
+            const transaction = await updateTransaction(idUsuario, idTransaction, valor, data, novoIdUsuario);
 
-            if (insumo) {
-                res.json(insumo);
+            if (transaction) {
+                res.json(transaction);
                 return;
             }
         } catch (error) {
@@ -100,23 +102,23 @@ async function putItem(req, res, next) {
     }
 }
 
-async function postItem(req, res, next) {
+async function postTransaction(req, res, next) {
     if (req.user) {
         try {
-            const { idEvento, tipo, nome, descricao, valor } = req.body;
+            const { valor, data, idInsumo, novoIdUsuario } = req.body;
             const idUsuario = req.user.id_usuario;
 
-            if (!idEvento || !tipo || !nome || !descricao || !valor) {
+            if (!valor || !data || !novoIdUsuario) {
                 res.status(400);
                 res.json({ error: validationError });
                 return;
             }
 
-            console.log("Adicionar insumo " + nome);
-            const insumo = await insertItem(idUsuario, idEvento, tipo, nome, descricao, valor);
+            console.log("Adicionar transação " + nome);
+            const transaction = await insertTransaction(idUsuario, valor, data, idInsumo, novoIdUsuario);
 
-            if (insumo) {
-                res.json(insumo);
+            if (transaction) {
+                res.json(transaction);
                 return;
             }
         } catch (error) {
@@ -131,4 +133,4 @@ async function postItem(req, res, next) {
     }
 }
 
-export { getItem, getItems, postItem, putItem, deleteItem };
+export { getTransaction, getTransactions, postTransaction, putTransaction, deleteTransaction };

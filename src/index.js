@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import user from './routes/user.js';
 import event from './routes/event.js';
 import item from './routes/item.js';
+import transaction from './routes/transaction.js';
 
 const app = express();
 dotenv.config();
@@ -23,3 +24,4 @@ app.get('/', (req, res) => res.json({ message: 'Funcionando!' }));
 app.use('/usuario', user);
 app.use('/evento', event);
 app.use('/insumo', item);
+app.use('/transacao', transaction);

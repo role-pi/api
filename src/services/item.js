@@ -1,13 +1,31 @@
 import client from '../utils/database.js';
 
+async function selectItem(idUsuario, idInsumo) {
+    var res;
+
+    if (idInsumo) {
+        res = await client.query(`
+            SELECT *
+            FROM insumos
+            WHERE id_insumo = ?
+        `, [idInsumo]);
+
+        return res[0];
+    }
+    
+    return [];
+}
+
 async function selectItems(idUsuario, idEvento) {
     var res;
 
     if (idEvento) {
         res = await client.query(`
-            SELECT insumos.*
+            SELECT insumos.*,
+            IFNULL(SUM(transacoes.valor), 0) AS valor_total,
             FROM insumos
             INNER JOIN eventos_has_usuarios ON insumos.eventos_id_evento = eventos_has_usuarios.eventos_id_evento
+            LEFT JOIN transacoes ON insumos.id_insumo = transacoes.insumos_id_insumo
             WHERE eventos_has_usuarios.usuarios_id_usuario = ? AND
             insumos.eventos_id_evento = ?
         `, [idUsuario, idEvento]);
@@ -66,4 +84,4 @@ async function removeItem(idUsuario, idInsumo) {
     return res;
 }
 
-export { selectItems, insertItem, updateItem, removeItem }
+export { selectItem, selectItems, insertItem, updateItem, removeItem }

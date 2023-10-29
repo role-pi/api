@@ -23,7 +23,7 @@ async function selectEvents(idUsuario) {
                 FROM eventos_has_usuarios
                 WHERE eventos_has_usuarios.usuarios_id_usuario = ?
             )
-            GROUP BY eventos.id_evento;
+            GROUP BY eventos.id_evento
         `, [idUsuario]);
 
         return res[0];
