@@ -20,6 +20,8 @@ async function getEvents(req, res, next) {
             res.json(resultado);
             return;
         } catch (error) {
+            res.status(500);
+            res.json({ error: getError });
             console.log(error);
         }
 
@@ -44,6 +46,8 @@ async function deleteEvent(req, res, next) {
             res.json(resultado);
             return;
         } catch (error) {
+            res.status(500);
+            res.json({ error: getError });
             console.log(error);
         }
 
@@ -67,6 +71,8 @@ async function putEvent(req, res, next) {
             res.json(resultado);
             return;
         } catch (error) {
+            res.status(500);
+            res.json({ error: getError });
             console.log(error);
         }
 
@@ -98,6 +104,8 @@ async function postEvent(req, res, next) {
                 return;
             }
         } catch (error) {
+            res.status(500);
+            res.json({ error: getError });
             console.log(error);
         }
 

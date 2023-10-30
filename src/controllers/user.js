@@ -54,6 +54,8 @@ async function deleteUser(req, res, next) {
             res.json(await removeUser(idUsuario));
         } catch (error) {
             res.status(500);
+            res.json({ error: getError });
+            console.log(error);
             res.json({ error: deleteError });
         }
     } else {

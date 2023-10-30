@@ -1,4 +1,4 @@
-import { selectTransactions, insertTransaction, removeTransaction, updateTransaction } from '../services/transaction.js';
+import { selectTransaction, selectTransactions, insertTransaction, removeTransaction, updateTransaction } from '../services/transaction.js';
 import { postError, putError, deleteError, validationError, authenticationError, getError, uploadError } from '../utils/strings.js';
 
 async function getTransaction(req, res, next) {
@@ -7,7 +7,7 @@ async function getTransaction(req, res, next) {
             const idTransaction = req.params.id_transaction;
             const idUsuario = req.user.id_usuario;
             
-            if (!idEvento) {
+            if (!idTransaction) {
                 res.status(400);
                 res.json({ error: validationError });
             }
@@ -16,6 +16,8 @@ async function getTransaction(req, res, next) {
             res.json(transactions);
         } catch (error) {
             res.status(500);
+            res.json({ error: getError });
+            console.log(error);
             res.json({ error: getError });
         }
     } else {
@@ -27,10 +29,10 @@ async function getTransaction(req, res, next) {
 async function getTransactions(req, res, next) {
     if (req.user) {
         try {
-            const idInsumo = req.params.idInsumo;
+            const idInsumo = req.params.id_insumo;
             const idUsuario = req.user.id_usuario;
             
-            if (!idEvento) {
+            if (!idInsumo) {
                 res.status(400);
                 res.json({ error: validationError });
             }
@@ -40,6 +42,7 @@ async function getTransactions(req, res, next) {
         } catch (error) {
             res.status(500);
             res.json({ error: getError });
+            console.log(error);
         }
     } else {
         res.status(401);
@@ -60,6 +63,8 @@ async function deleteTransaction(req, res, next) {
             res.json(result);
             return;
         } catch (error) {
+            res.status(500);
+            res.json({ error: getError });
             console.log(error);
         }
 
@@ -91,6 +96,8 @@ async function putTransaction(req, res, next) {
                 return;
             }
         } catch (error) {
+            res.status(500);
+            res.json({ error: getError });
             console.log(error);
         }
 
@@ -122,6 +129,8 @@ async function postTransaction(req, res, next) {
                 return;
             }
         } catch (error) {
+            res.status(500);
+            res.json({ error: getError });
             console.log(error);
         }
 

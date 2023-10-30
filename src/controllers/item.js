@@ -4,7 +4,7 @@ import { postError, putError, deleteError, validationError, authenticationError,
 async function getItem(req, res, next) {
     if (req.user) {
         try {
-            const idEvento = req.params.id_insumo;
+            const idInsumo = req.params.id_insumo;
             const idUsuario = req.user.id_usuario;
             
             if (!idInsumo) {
@@ -12,9 +12,12 @@ async function getItem(req, res, next) {
                 res.json({ error: validationError });
             }
 
-            res.json(await selectItem(idUsuario, idInsumo));
+            const insumo = await selectItem(idUsuario, idInsumo);
+            res.json(insumo);
         } catch (error) {
             res.status(500);
+            res.json({ error: getError });
+            console.log(error);
             res.json({ error: getError });
         }
     } else {
@@ -28,16 +31,18 @@ async function getItems(req, res, next) {
         try {
             const idEvento = req.params.id_evento;
             const idUsuario = req.user.id_usuario;
-            
+
             if (!idEvento) {
                 res.status(400);
                 res.json({ error: validationError });
             }
 
-            res.json(await selectItems(idUsuario, idEvento));
+            const insumos = await selectItems(idUsuario, idEvento);
+            res.json(insumos);
         } catch (error) {
             res.status(500);
             res.json({ error: getError });
+            console.log(error);
         }
     } else {
         res.status(401);
@@ -58,6 +63,8 @@ async function deleteItem(req, res, next) {
             res.json(resultado);
             return;
         } catch (error) {
+            res.status(500);
+            res.json({ error: getError });
             console.log(error);
         }
 
@@ -89,6 +96,8 @@ async function putItem(req, res, next) {
                 return;
             }
         } catch (error) {
+            res.status(500);
+            res.json({ error: getError });
             console.log(error);
         }
 
@@ -120,6 +129,8 @@ async function postItem(req, res, next) {
                 return;
             }
         } catch (error) {
+            res.status(500);
+            res.json({ error: getError });
             console.log(error);
         }
 

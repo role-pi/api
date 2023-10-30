@@ -22,10 +22,10 @@ async function selectTransactions(idUsuario, idInsumo) {
         var res = await client.query(`
             SELECT transacoes.*, usuarios.*
             FROM transacoes
-            INNER JOIN usuarios ON usuarios.id_usuario = transacoes.id_usuario
-            WHERE transacoes.id_insumo = ?
+            INNER JOIN usuarios ON usuarios.id_usuario = transacoes.usuarios_id_usuario
+            WHERE transacoes.insumos_id_insumo = ?
         `, [idInsumo]);
-
+        console.log(res);
         if (res) {
             return res[0];
         }
