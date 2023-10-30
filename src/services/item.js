@@ -39,11 +39,11 @@ async function selectItems(idUsuario, idEvento) {
     return [];
 }
 
-async function insertItem(idUsuario, idEvento, tipo, nome, descricao, valor) {
+async function insertItem(idUsuario, idEvento, tipo, nome, notas, valor) {
     if (idUsuario, idEvento, tipo, nome) {
         var res1 = await client.query(`
-            INSERT INTO insumos (tipo, nome, descricao, eventos_id_evento) VALUES (?, ?, ?, ?)
-        `, [tipo, nome, descricao, idEvento]);
+            INSERT INTO insumos (tipo, nome, notas, eventos_id_evento) VALUES (?, ?, ?, ?)
+        `, [tipo, nome, notas, idEvento]);
         
         if (!res1) {
             return null;
@@ -61,11 +61,11 @@ async function insertItem(idUsuario, idEvento, tipo, nome, descricao, valor) {
     return null;
 }
 
-async function updateItem(idUsuario, idInsumo, tipo, nome, descricao) {
-    if (idUsuario, idInsumo, tipo, nome, descricao) {
+async function updateItem(idUsuario, idInsumo, tipo, nome, notas) {
+    if (idUsuario, idInsumo, tipo, nome, notas) {
         var res = await client.query(`
-            UPDATE insumos SET tipo = ?, nome = ?, descricao = ? WHERE id_insumo = ?
-        `, [tipo, nome, descricao, idInsumo]);
+            UPDATE insumos SET tipo = ?, nome = ?, notas = ? WHERE id_insumo = ?
+        `, [tipo, nome, notas, idInsumo]);
         
         if (res) {
             return res[0];
