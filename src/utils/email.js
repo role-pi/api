@@ -18,9 +18,9 @@ export function sendMail(email, subject, text) {
         html: text
     };
 
-    transporter.sendMail(mailOptions, (err, info) => {
-        if(err)
-            console.log(err)
+    transporter.sendMail(mailOptions, (error, info) => {
+        if(error)
+            console.log(error)
         else
             console.log("Sent email to " + email);
     });

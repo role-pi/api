@@ -90,7 +90,7 @@ async function putItem(req, res, next) {
 
             console.log("Editar insumo " + nome);
             const insumo = await updateItem(idUsuario, idInsumo, tipo, nome, descricao);
-
+            console.log(insumo);
             if (insumo) {
                 res.json(insumo);
                 return;

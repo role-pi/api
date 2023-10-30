@@ -25,7 +25,6 @@ async function selectTransactions(idUsuario, idInsumo) {
             INNER JOIN usuarios ON usuarios.id_usuario = transacoes.usuarios_id_usuario
             WHERE transacoes.insumos_id_insumo = ?
         `, [idInsumo]);
-        console.log(res);
         if (res) {
             return res[0];
         }
