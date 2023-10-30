@@ -29,8 +29,9 @@ async function getItem(req, res, next) {
 async function getItems(req, res, next) {
     if (req.user) {
         try {
-            const idEvento = req.params.id_evento;
             const idUsuario = req.user.id_usuario;
+            const idEvento = req.params.id_evento;
+            console.log("Requerer insumos de evento " + idEvento);
 
             if (!idEvento) {
                 res.status(400);
@@ -90,7 +91,6 @@ async function putItem(req, res, next) {
 
             console.log("Editar insumo " + nome);
             const insumo = await updateItem(idUsuario, idInsumo, tipo, nome, descricao);
-            console.log(insumo);
             if (insumo) {
                 res.json(insumo);
                 return;

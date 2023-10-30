@@ -121,7 +121,11 @@ async function removeEvent(idUsuario, idEvento){
         `, [idEvento, idUsuario])
     }
 
-    return res;
+    if (res) {
+        return res[0];
+    }
+
+    return null;
 }
 
 export { selectEvents, selectEvent, insertEvent, updateEvent, removeEvent };

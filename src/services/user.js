@@ -50,7 +50,12 @@ async function removeUser(idUsuario) {
     var query = await client.query(`
     DELETE FROM usuarios WHERE id_usuario = ?
     `, [idUsuario]);
-    return query[0].insertId;
+
+    if (res) {
+        return res[0];
+    }
+
+    return null;
 }
 
 export { selectUsers, selectUser, insertUser, updateUsuario, updateProfilePictureURL, removeUser };

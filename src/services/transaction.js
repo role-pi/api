@@ -70,7 +70,11 @@ async function removeTransaction(idUsuario, idTransaction){
         `, [idTransaction])
     }
 
-    return res;
+    if (res) {
+        return res[0];
+    }
+
+    return null;
 }
 
 export { selectTransaction, selectTransactions, insertTransaction, updateTransaction, removeTransaction };

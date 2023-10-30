@@ -22,13 +22,15 @@ async function selectItems(idUsuario, idEvento) {
     if (idEvento) {
         res = await client.query(`
             SELECT insumos.*,
-            IFNULL(SUM(transacoes.valor), 0) AS valor_total
+            IFNULL(SUM(transacoes.valor), 0) AS valor_total,
+            MAX(transacoes.data) as data
             FROM insumos
             INNER JOIN eventos_has_usuarios ON insumos.eventos_id_evento = eventos_has_usuarios.eventos_id_evento
             LEFT JOIN transacoes ON insumos.id_insumo = transacoes.insumos_id_insumo
             WHERE eventos_has_usuarios.usuarios_id_usuario = ? AND
             insumos.eventos_id_evento = ?
             GROUP BY insumos.id_insumo
+            ORDER BY data DESC
         `, [idUsuario, idEvento]);
 
         return res[0];
@@ -82,7 +84,11 @@ async function removeItem(idUsuario, idInsumo) {
         `, [idInsumo]);
     }
 
-    return res;
+    if (res) {
+        return res[0];
+    }
+
+    return null;
 }
 
 export { selectItem, selectItems, insertItem, updateItem, removeItem }

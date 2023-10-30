@@ -10,7 +10,7 @@ const verificationCodes = {};
 async function getUsers(req, res, next) {
     if (req.user) {
         try {
-            // const idUsuario = req.user.id_usuario;
+            const idUsuario = req.user.id_usuario;
             const idEvento = req.params.id_evento;
             console.log("Requerer usuários de evento " + idEvento);
 
