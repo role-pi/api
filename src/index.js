@@ -21,7 +21,7 @@ console.log('API funcionando em '+port);
 
 app.get('/', (req, res) => res.json({ message: 'Funcionando!' }));
 
-app.use('/usuario', user);
-app.use('/evento', event);
-app.use('/insumo', item);
-app.use('/transacao', transaction);
+app.use('/user', user);
+app.use('/event', event);
+app.use('/item', item);
+app.use('/transaction', transaction);
