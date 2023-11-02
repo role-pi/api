@@ -36,13 +36,57 @@ API_SECRET= "abcdef"
 
 Para utilizar a API, basta enviar requisições HTTP para o endereço `http://localhost:3000/` com os parâmetros necessários para cada rota.
 
-Abaixo está uma lista das rotas já implementadas e seus respectivos parâmetros, junto de rotas que ainda serão implementadas:
+Abaixo está uma lista das rotas implementadas:
 
-### GET
-- [x] **/** – Retorna uma mensagem de boas-vindas.
-- [x] **/usuarios** – Retorna todos os usuários cadastrados. Parâmetros:
-    - eventId: retorna usuários associados ao evento
-- [x] **/eventos** – Retorna todos os eventos cadastrados. Parâmetros:
-    - userId: retorna eventos associados ao usuário
+## Rotas
+
+- **/** – Retorna uma mensagem de boas-vindas.
+
+### `/user`
+
+- GET **`/user`** – Retorna os usuários cadastrados. Requer autenticação. Parâmetros:
+    - q: Filtra os usuários por meio de uma string de busca
+    - eventId: Inclui um campo indicando se o usuário está associado ao evento do ID especificado
+- GET **`/user/{event_id}`** – Retorna os usuários associados ao evento de ID `event_id`. Requer autenticação.
+- PUT **`/user`** – Atualiza os dados do usuário autenticado. Requer autenticação. Parâmetros de corpo:
+    - nome: O novo nome do usuário
+    - email: O novo email do usuário
+- DELETE **`/user`** – Deleta o usuário autenticado. Requer autenticação.
+
+- POST **`/user/image`** – Atualiza a imagem do usuário autenticado. Requer autenticação. Parâmetros de corpo:
+    - image: A nova imagem do usuário, em formato multipart/form-data
+
+- GET **`/user/login`** – Retorna os dados do usuário autenticado. Requer autenticação.
+- POST **`/user/signin`** – Cria uma nova conta do usuário ou tenta realizar um login. Quando executada, manda um código de verificação para o email do usuário. Parâmetros de corpo:
+    - email: O email do usuário
+- POST **`/user/verify`** – Verifica o código de verificação enviado para o email do usuário. Parâmetros de corpo:
+    - email: O email do usuário
+    - code: O código de verificação enviado para o email do usuário
+
+### `/event`
+
+router.get('/:id_evento?', verifyToken, getEvents);
+router.get('/:id_evento/insumos', verifyToken, getItems);
+router.post('/', verifyToken, postEvent);
+router.put('/', verifyToken, putEvent);
+router.delete('/:id_evento', verifyToken, deleteEvent);
+
+- GET **`/event/{event_id?}`** – Retorna os eventos cadastrados, ou o evento de ID `event_id` se especificado. Requer autenticação.
+- GET **`/event/{event_id}/items`** – Retorna os insumos associados ao evento de ID `event_id`. Requer autenticação.
+- POST **`/event`** – Cria um novo evento. Requer autenticação. Parâmetros de corpo:
+    - nome: O nome do evento
+    - emoji: O emoji do evento
+    - cor1: A cor primária do evento
+    - cor2: A cor secundária do evento
+- PUT **`/event`** – Atualiza os dados do evento especificado. Requer autenticação. Parâmetros de corpo:
+    - eventId: o ID do evento a ser atualizado
+    - nome: O novo nome do evento
+    - emoji: O novo emoji do evento
+    - cor1: A nova cor primária do evento
+    - cor2: A nova cor secundária do evento
+    - dataInicio: A nova data de início do evento
+    - dataFim: A nova data de fim do evento
+- DELETE **`/event/{event_id}`** – Deleta o evento de ID `event_id`. Requer autenticação.
+
 
 Se a API foi inicializada corretamente, você poderá, por exemplo, listar todos os usuários do primeiro evento com `http://localhost:3000/usuarios?eventId=1` no próprio navegador.

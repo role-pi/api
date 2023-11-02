@@ -4,7 +4,7 @@ import { postError, putError, deleteError, validationError, authenticationError,
 async function getEvents(req, res, next) {
     if (req.user) {
         try {
-            const eventId = req.params.id_evento;
+            const eventId = req.params.event_id;
             const userId = req.user.id_usuario;
 
             let resultado;
@@ -36,7 +36,7 @@ async function getEvents(req, res, next) {
 async function deleteEvent(req, res, next) {
     if (req.user) {
         try {
-            const eventId = req.params.id_evento;
+            const eventId = req.params.event_id;
             const userId = req.user.id_usuario;
 
             console.log("Remover evento " + eventId + " com usuário " + userId);

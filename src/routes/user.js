@@ -5,8 +5,8 @@ import { upload } from '../services/images.js';
 
 const router = express.Router()
 
-router.get('/:id_evento', verifyToken, getUsersInEvent);
 router.get('/', verifyToken, getUsers);
+router.get('/:id_evento', verifyToken, getUsersInEvent);
 router.put('/', verifyToken, putUser);
 router.delete('/:id_usuario', verifyToken, deleteUser);
 

@@ -5,10 +5,10 @@ import { verifyToken } from '../middlewares/verification.js';
 
 const router = express.Router()
 
-router.get('/:id_evento?', verifyToken, getEvents);
-router.get('/:id_evento/insumos', verifyToken, getItems);
+router.get('/:event_id?', verifyToken, getEvents);
+router.get('/:event_id/items', verifyToken, getItems);
 router.post('/', verifyToken, postEvent);
 router.put('/', verifyToken, putEvent);
-router.delete('/:id_evento', verifyToken, deleteEvent);
+router.delete('/:event_id', verifyToken, deleteEvent);
 
 export default router;

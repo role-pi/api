@@ -82,6 +82,10 @@ async function deleteUser(req, res, next) {
     }
 }
 
+async function loginUser(req, res, next) {
+    res.json({ user: req.user });
+}
+
 async function signInUser(req, res, next) {
     const { email } = req.body;
 
@@ -150,10 +154,6 @@ async function verifyUser(req, res, next) {
     res.status(400);
     res.json({ error: 'Código inválido.' });
 };
-
-async function loginUser(req, res, next) {
-    res.json({ user: req.user });
-}
 
 async function uploadProfilePicture(req, res, next) {
     let url = req.file.location;
