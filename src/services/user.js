@@ -1,9 +1,32 @@
 import client from '../utils/database.js';
 
-async function selectUsers(idEvento) {
+async function selectUsers(query, eventId) {
+    var query;
+
+    query = await client.query(`
+    SELECT usuarios.*,
+    CASE
+        WHEN eventos_has_usuarios.usuarios_id_usuario IS NOT NULL THEN 1
+        ELSE 0
+        END AS participante
+    FROM usuarios
+    LEFT JOIN eventos_has_usuarios
+    ON usuarios.id_usuario = eventos_has_usuarios.usuarios_id_usuario AND eventos_has_usuarios.eventos_id_evento = ?
+    WHERE
+        nome COLLATE utf8mb4_general_ci 
+        LIKE CONCAT('%', ? ,'%')
+        OR
+        email COLLATE utf8mb4_general_ci 
+        LIKE CONCAT('%', ? ,'%');
+    `, [eventId, query, query]);
+
+    return query[0];
+}
+
+async function selectUsersByEventId(eventId) {
     var query;
     
-    if (!idEvento) {
+    if (!eventId) {
         query = await client.query('SELECT * FROM usuarios');
     } else {
         query = await client.query(`
@@ -11,7 +34,7 @@ async function selectUsers(idEvento) {
         INNER JOIN eventos_has_usuarios
         ON usuarios.id_usuario = eventos_has_usuarios.usuarios_id_usuario
         WHERE eventos_has_usuarios.eventos_id_evento = ?
-        `, [idEvento]);
+        `, [eventId]);
     }
     
     return query[0];
@@ -58,4 +81,4 @@ async function removeUser(idUsuario) {
     return null;
 }
 
-export { selectUsers, selectUser, insertUser, updateUsuario, updateProfilePictureURL, removeUser };
+export { selectUsers, selectUsersByEventId, selectUser, insertUser, updateUsuario, updateProfilePictureURL, removeUser };

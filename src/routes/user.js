@@ -1,16 +1,17 @@
 import express from 'express';
-import { signInUser, getUsers, putUser, verifyUser, loginUser, deleteUser, uploadProfilePicture } from "../controllers/user.js"
+import { signInUser, getUsers, getUsersInEvent, putUser, verifyUser, loginUser, deleteUser, uploadProfilePicture } from "../controllers/user.js"
 import { verifyToken } from '../middlewares/verification.js';
 import { upload } from '../services/images.js';
 
 const router = express.Router()
 
-router.get('/:id_evento', verifyToken, getUsers);
-router.get('/', verifyToken, loginUser);
+router.get('/:id_evento', verifyToken, getUsersInEvent);
+router.get('/', verifyToken, getUsers);
 router.put('/', verifyToken, putUser);
 router.delete('/:id_usuario', verifyToken, deleteUser);
 
-// Sign in
+// Account management
+router.get('/login', verifyToken, loginUser);
 router.post('/signin', signInUser);
 router.post('/verify', verifyUser);
 

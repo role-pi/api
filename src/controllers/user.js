@@ -1,4 +1,4 @@
-import { insertUser, selectUsers, selectUser, removeUser, updateUsuario, updateProfilePictureURL } from "../services/user.js";
+import { insertUser, selectUsers, selectUsersByEventId, selectUser, removeUser, updateUsuario, updateProfilePictureURL } from "../services/user.js";
 import { postError, putError, deleteError, validationError, authenticationError, getError, uploadError } from '../utils/strings.js';
 
 import { sendMail } from '../utils/email.js';
@@ -10,11 +10,29 @@ const verificationCodes = {};
 async function getUsers(req, res, next) {
     if (req.user) {
         try {
-            const idUsuario = req.user.id_usuario;
-            const idEvento = req.params.id_evento;
-            console.log("Requerer usuários de evento " + idEvento);
+            const userId = req.user.id_usuario;
+            const query = req.query.q;
+            const eventId = req.query.eventId;
 
-            res.json(await selectUsers(idEvento));
+            res.json(await selectUsers(query, eventId));
+        } catch {
+            res.status(500);
+            res.json({ error: getError });
+        }
+    } else {
+        res.status(401);
+        res.json({ error: authenticationError });
+    }
+}
+
+async function getUsersInEvent(req, res, next) {
+    if (req.user) {
+        try {
+            const userId = req.user.id_usuario;
+            const eventId = req.params.id_evento;
+            console.log("Requerer usuários de evento " + eventId);
+
+            res.json(await selectUsersByEventId(eventId));
         } catch {
             res.status(500);
             res.json({ error: getError });
@@ -28,11 +46,11 @@ async function getUsers(req, res, next) {
 async function putUser(req, res, next) {
     if (req.user) {
         try {
-            const idUsuario = req.user.id_usuario;
-            console.log("Atualizar usuario " + idUsuario);
+            const userId = req.user.id_usuario;
+            console.log("Atualizar usuario " + userId);
 
             const { nome, email } = req.body;
-            const resultado = await updateUsuario(idUsuario, nome, email)
+            const resultado = await updateUsuario(userId, nome, email)
             res.status(200);
             res.json(resultado);
         } catch(error) {
@@ -48,10 +66,10 @@ async function putUser(req, res, next) {
 async function deleteUser(req, res, next) {
     if (req.user) {
         try {
-            const idUsuario = req.user.id_usuario;
-            console.log("Remover usuario " + idUsuario);
+            const userId = req.user.id_usuario;
+            console.log("Remover usuario " + userId);
 
-            res.json(await removeUser(idUsuario));
+            res.json(await removeUser(userId));
         } catch (error) {
             res.status(500);
             res.json({ error: getError });
@@ -153,4 +171,4 @@ async function uploadProfilePicture(req, res, next) {
     res.json({ error: uploadError });
 }
 
-export { getUsers, updateUsuario, signInUser, verifyUser, loginUser, deleteUser, putUser, uploadProfilePicture};
+export { getUsers, getUsersInEvent, updateUsuario, signInUser, verifyUser, loginUser, deleteUser, putUser, uploadProfilePicture};

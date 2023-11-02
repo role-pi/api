@@ -5,14 +5,14 @@ async function getTransaction(req, res, next) {
     if (req.user) {
         try {
             const idTransaction = req.params.id_transaction;
-            const idUsuario = req.user.id_usuario;
+            const userId = req.user.id_usuario;
             
             if (!idTransaction) {
                 res.status(400);
                 res.json({ error: validationError });
             }
 
-            const transactions = await selectTransaction(idUsuario, idTransaction);
+            const transactions = await selectTransaction(userId, idTransaction);
             res.json(transactions);
         } catch (error) {
             res.status(500);
@@ -30,14 +30,14 @@ async function getTransactions(req, res, next) {
     if (req.user) {
         try {
             const idInsumo = req.params.id_insumo;
-            const idUsuario = req.user.id_usuario;
+            const userId = req.user.id_usuario;
             
             if (!idInsumo) {
                 res.status(400);
                 res.json({ error: validationError });
             }
 
-            const transactions = await selectTransactions(idUsuario, idInsumo);
+            const transactions = await selectTransactions(userId, idInsumo);
             res.json(transactions);
         } catch (error) {
             res.status(500);
@@ -54,11 +54,11 @@ async function deleteTransaction(req, res, next) {
     if (req.user) {
         try {
             const idTransaction = req.params.id_transaction;
-            const idUsuario = req.user.id_usuario;
+            const userId = req.user.id_usuario;
 
-            console.log("Remover transação " + idTransaction + " com usuário " + idUsuario);
+            console.log("Remover transação " + idTransaction + " com usuário " + userId);
             
-            const result = await removeTransaction(idUsuario, idTransaction);
+            const result = await removeTransaction(userId, idTransaction);
             res.status(200);
             res.json(result);
             return;
@@ -79,17 +79,17 @@ async function deleteTransaction(req, res, next) {
 async function putTransaction(req, res, next) {
     if (req.user) {
         try {
-            const { idTransaction, valor, data, novoIdUsuario } = req.body;
-            const idUsuario = req.user.id_usuario;
+            const { idTransaction, valor, data, novouserId } = req.body;
+            const userId = req.user.id_usuario;
 
-            if (!idTransaction || !valor || !data || !novoIdUsuario) {
+            if (!idTransaction || !valor || !data || !novouserId) {
                 res.status(400);
                 res.json({ error: validationError });
                 return;
             }
 
             console.log("Editar transação " + nome);
-            const transaction = await updateTransaction(idUsuario, idTransaction, valor, data, novoIdUsuario);
+            const transaction = await updateTransaction(userId, idTransaction, valor, data, novouserId);
 
             if (transaction) {
                 res.json(transaction);
@@ -112,17 +112,17 @@ async function putTransaction(req, res, next) {
 async function postTransaction(req, res, next) {
     if (req.user) {
         try {
-            const { valor, data, idInsumo, novoIdUsuario } = req.body;
-            const idUsuario = req.user.id_usuario;
+            const { valor, data, idInsumo, novouserId } = req.body;
+            const userId = req.user.id_usuario;
 
-            if (!valor || !data || !novoIdUsuario) {
+            if (!valor || !data || !novouserId) {
                 res.status(400);
                 res.json({ error: validationError });
                 return;
             }
 
             console.log("Adicionar transação " + nome);
-            const transaction = await insertTransaction(idUsuario, valor, data, idInsumo, novoIdUsuario);
+            const transaction = await insertTransaction(userId, valor, data, idInsumo, novouserId);
 
             if (transaction) {
                 res.json(transaction);

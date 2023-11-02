@@ -4,16 +4,16 @@ import { postError, putError, deleteError, validationError, authenticationError,
 async function getEvents(req, res, next) {
     if (req.user) {
         try {
-            const idEvento = req.params.id_evento;
-            const idUsuario = req.user.id_usuario;
+            const eventId = req.params.id_evento;
+            const userId = req.user.id_usuario;
 
             let resultado;
-            if (idEvento) {
-                resultado = await selectEvent(idUsuario, idEvento);
-                console.log("Obter evento " + idEvento + " com usuário " + idUsuario);
+            if (eventId) {
+                resultado = await selectEvent(userId, eventId);
+                console.log("Obter evento " + eventId + " com usuário " + userId);
             } else {
-                resultado = await selectEvents(idUsuario);
-                console.log("Obter eventos com usuário " + idUsuario);
+                resultado = await selectEvents(userId);
+                console.log("Obter eventos com usuário " + userId);
             }
 
             res.status(200);
@@ -36,12 +36,12 @@ async function getEvents(req, res, next) {
 async function deleteEvent(req, res, next) {
     if (req.user) {
         try {
-            const idEvento = req.params.id_evento;
-            const idUsuario = req.user.id_usuario;
+            const eventId = req.params.id_evento;
+            const userId = req.user.id_usuario;
 
-            console.log("Remover evento " + idEvento + " com usuário " + idUsuario);
+            console.log("Remover evento " + eventId + " com usuário " + userId);
             
-            const resultado = await removeEvent(idUsuario, idEvento);
+            const resultado = await removeEvent(userId, eventId);
             res.status(200);
             res.json(resultado);
             return;
@@ -62,11 +62,11 @@ async function deleteEvent(req, res, next) {
 async function putEvent(req, res, next) {
     if (req.user) {
         try {
-            const { idEvento, nome, emoji, cor1, cor2, dataInicio, dataFim } = req.body;
+            const { eventId, nome, emoji, cor1, cor2, dataInicio, dataFim } = req.body;
 
             console.log("Atualizar evento " + nome);
 
-            const resultado = await updateEvent(idEvento, nome, emoji, cor1, cor2, dataInicio, dataFim);
+            const resultado = await updateEvent(eventId, nome, emoji, cor1, cor2, dataInicio, dataFim);
             res.status(200);
             res.json(resultado);
             return;

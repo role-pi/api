@@ -1,9 +1,9 @@
 import client from '../utils/database.js';
 
-async function selectEvents(idUsuario) {
+async function selectEvents(userId) {
     var res;
 
-    if (idUsuario) {
+    if (userId) {
         res = await client.query(`
                 SELECT eventos.*,
                 IFNULL(SUM(transacoes.valor), 0) AS valor_total,
@@ -24,7 +24,7 @@ async function selectEvents(idUsuario) {
                 WHERE eventos_has_usuarios.usuarios_id_usuario = ?
             )
             GROUP BY eventos.id_evento
-        `, [idUsuario]);
+        `, [userId]);
 
         return res[0];
     }
@@ -32,10 +32,10 @@ async function selectEvents(idUsuario) {
     return [];
 }
 
-async function selectEvent(idUsuario, idEvento) {
+async function selectEvent(userId, eventId) {
     var res;
 
-    if (idUsuario) {
+    if (userId) {
         res = await client.query(`
             SELECT eventos.*, IFNULL(SUM(transacoes.valor), 0) AS valor_total
             FROM eventos
@@ -48,7 +48,7 @@ async function selectEvent(idUsuario, idEvento) {
             WHERE eventos_has_usuarios.usuarios_id_usuario = ? AND
             eventos.id_evento = ?
             GROUP BY eventos.id_evento
-        `, [idUsuario, idEvento]);
+        `, [userId, eventId]);
 
         if (!res[0].length) return null;
         return res[0][0];
@@ -57,10 +57,10 @@ async function selectEvent(idUsuario, idEvento) {
     return null;
 }
 
-async function insertEvent(idUsuario, nome, emoji, cor1, cor2) {
+async function insertEvent(userId, nome, emoji, cor1, cor2) {
     var res;
 
-    if (idUsuario) {
+    if (userId) {
         res = await client.query(`
             INSERT INTO eventos (nome, emoji, cor_1, cor_2) VALUES (?, ?, ?, ?)
         `, [nome, emoji, cor1, cor2]);
@@ -71,33 +71,33 @@ async function insertEvent(idUsuario, nome, emoji, cor1, cor2) {
 
         await client.query(`
             INSERT INTO eventos_has_usuarios (eventos_id_evento, usuarios_id_usuario) VALUES (?, ?)
-        `, [res[0].insertId, idUsuario]);
+        `, [res[0].insertId, userId]);
         return res[0];
     }
     
     return null;
 }
 
-async function updateEvent(idEvento, nome, emoji, cor1, cor2, dataInicio, dataFim) {
+async function updateEvent(eventId, nome, emoji, cor1, cor2, dataInicio, dataFim) {
     var res;
 
-    if (idEvento) {
+    if (eventId) {
         if (dataInicio && dataFim) {
             res = await client.query(`
                 UPDATE eventos SET nome = ?, emoji = ?, cor_1 = ?, cor_2 = ?, data_inicio = ?, data_fim = ? WHERE id_evento = ?
-            `, [nome, emoji, cor1, cor2, dataInicio, dataFim, idEvento]);
+            `, [nome, emoji, cor1, cor2, dataInicio, dataFim, eventId]);
         } else if (dataInicio) {
             res = await client.query(`
                 UPDATE eventos SET nome = ?, emoji = ?, cor_1 = ?, cor_2 = ?, data_inicio = ? WHERE id_evento = ?
-            `, [nome, emoji, cor1, cor2, dataInicio, idEvento]);
+            `, [nome, emoji, cor1, cor2, dataInicio, eventId]);
         }  else if (dataFim) {
             res = await client.query(`
                 UPDATE eventos SET nome = ?, emoji = ?, cor_1 = ?, cor_2 = ?, data_fim = ? WHERE id_evento = ?
-            `, [nome, emoji, cor1, cor2, dataFim, idEvento]);
+            `, [nome, emoji, cor1, cor2, dataFim, eventId]);
         } else {
             res = await client.query(`
                 UPDATE eventos SET nome = ?, emoji = ?, cor_1 = ?, cor_2 = ? WHERE id_evento = ?
-            `, [nome, emoji, cor1, cor2, idEvento]);
+            `, [nome, emoji, cor1, cor2, eventId]);
         }
 
         if (res) {
@@ -108,17 +108,17 @@ async function updateEvent(idEvento, nome, emoji, cor1, cor2, dataInicio, dataFi
     return null;
 }
 
-async function removeEvent(idUsuario, idEvento){
+async function removeEvent(userId, eventId){
     var res;
 
-    if (idUsuario) {
+    if (userId) {
         res = await client.query(`
             DELETE eventos
             FROM eventos
             INNER JOIN eventos_has_usuarios ON eventos.id_evento = eventos_has_usuarios.eventos_id_evento
             WHERE eventos.id_evento = ?
             AND eventos_has_usuarios.usuarios_id_usuario = ?;
-        `, [idEvento, idUsuario])
+        `, [eventId, userId])
     }
 
     if (res) {

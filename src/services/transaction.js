@@ -1,6 +1,6 @@
 import client from '../utils/database.js';
 
-async function selectTransaction(idUsuario, idTransaction) {
+async function selectTransaction(userId, idTransaction) {
     if (idTransaction) {
         var res = await client.query(`
             SELECT transacoes.*, usuarios.*
@@ -17,7 +17,7 @@ async function selectTransaction(idUsuario, idTransaction) {
     return [];
 }
 
-async function selectTransactions(idUsuario, idInsumo) {
+async function selectTransactions(userId, idInsumo) {
     if (idInsumo) {
         var res = await client.query(`
             SELECT transacoes.*, usuarios.*
@@ -33,11 +33,11 @@ async function selectTransactions(idUsuario, idInsumo) {
     return [];
 }
 
-async function insertTransaction(idUsuario, valor, data, idInsumo, novoIdUsuario) {
-    if (valor, data, novoIdUsuario) {
+async function insertTransaction(userId, valor, data, idInsumo, novouserId) {
+    if (valor, data, novouserId) {
         var res = await client.query(`
             INSERT INTO transacoes (valor, data, id_insumo, id_usuario) VALUES (?, ?, ?, ?)
-        `, [valor, data, idInsumo, novoIdUsuario]);
+        `, [valor, data, idInsumo, novouserId]);
 
         if (res) {
             return res[0];
@@ -47,11 +47,11 @@ async function insertTransaction(idUsuario, valor, data, idInsumo, novoIdUsuario
     return null;
 }
 
-async function updateTransaction(idTransaction, valor, data, novoIdUsuario) {
+async function updateTransaction(idTransaction, valor, data, novouserId) {
     if (idTransaction) {
         var res = await client.query(`
             UPDATE transcoes SET valor = ?, data = ?, id_usuario = ? WHERE id_transacao = ?
-        `, [valor, data, novoIdUsuario, idTransaction]);
+        `, [valor, data, novouserId, idTransaction]);
 
         if (res) {
             return res[0];
@@ -61,7 +61,7 @@ async function updateTransaction(idTransaction, valor, data, novoIdUsuario) {
     return null;
 }
 
-async function removeTransaction(idUsuario, idTransaction){
+async function removeTransaction(userId, idTransaction){
     var res;
 
     if (idTransaction) {

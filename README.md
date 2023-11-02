@@ -41,8 +41,8 @@ Abaixo está uma lista das rotas já implementadas e seus respectivos parâmetro
 ### GET
 - [x] **/** – Retorna uma mensagem de boas-vindas.
 - [x] **/usuarios** – Retorna todos os usuários cadastrados. Parâmetros:
-    - idEvento: retorna usuários associados ao evento
+    - eventId: retorna usuários associados ao evento
 - [x] **/eventos** – Retorna todos os eventos cadastrados. Parâmetros:
-    - idUsuario: retorna eventos associados ao usuário
+    - userId: retorna eventos associados ao usuário
 
-Se a API foi inicializada corretamente, você poderá, por exemplo, listar todos os usuários do primeiro evento com `http://localhost:3000/usuarios?idEvento=1` no próprio navegador.
+Se a API foi inicializada corretamente, você poderá, por exemplo, listar todos os usuários do primeiro evento com `http://localhost:3000/usuarios?eventId=1` no próprio navegador.
