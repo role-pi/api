@@ -6,9 +6,9 @@ import { upload } from '../services/images.js';
 const router = express.Router()
 
 router.get('/', verifyToken, getUsers);
-router.get('/:id_evento', verifyToken, getUsersInEvent);
+router.get('/:event_id', verifyToken, getUsersInEvent);
 router.put('/', verifyToken, putUser);
-router.delete('/:id_usuario', verifyToken, deleteUser);
+router.delete('/:user_id', verifyToken, deleteUser);
 
 // Account management
 router.get('/login', verifyToken, loginUser);

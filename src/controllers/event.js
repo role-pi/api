@@ -7,17 +7,17 @@ async function getEvents(req, res, next) {
             const eventId = req.params.event_id;
             const userId = req.user.id_usuario;
 
-            let resultado;
+            let result;
             if (eventId) {
-                resultado = await selectEvent(userId, eventId);
+                result = await selectEvent(userId, eventId);
                 console.log("Obter evento " + eventId + " com usuário " + userId);
             } else {
-                resultado = await selectEvents(userId);
+                result = await selectEvents(userId);
                 console.log("Obter eventos com usuário " + userId);
             }
 
             res.status(200);
-            res.json(resultado);
+            res.json(result);
             return;
         } catch (error) {
             res.status(500);
@@ -41,9 +41,9 @@ async function deleteEvent(req, res, next) {
 
             console.log("Remover evento " + eventId + " com usuário " + userId);
             
-            const resultado = await removeEvent(userId, eventId);
+            const result = await removeEvent(userId, eventId);
             res.status(200);
-            res.json(resultado);
+            res.json(result);
             return;
         } catch (error) {
             res.status(500);
@@ -62,13 +62,14 @@ async function deleteEvent(req, res, next) {
 async function putEvent(req, res, next) {
     if (req.user) {
         try {
-            const { eventId, nome, emoji, cor1, cor2, dataInicio, dataFim } = req.body;
+            const { eventId, name, emoji, color1, color2, startDate, endDate } = req.body;
+            const userId = req.user.id_usuario;
 
             console.log("Atualizar evento " + nome);
 
-            const resultado = await updateEvent(eventId, nome, emoji, cor1, cor2, dataInicio, dataFim);
+            const result = await updateEvent(eventId, name, emoji, color1, color2, startDate, endDate);
             res.status(200);
-            res.json(resultado);
+            res.json(result);
             return;
         } catch (error) {
             res.status(500);
@@ -87,16 +88,17 @@ async function putEvent(req, res, next) {
 async function postEvent(req, res, next) {
     if (req.user) {
         try {
-            const { nome, emoji, cor1, cor2 } = req.body;
+            const { name, emoji, color1, color2 } = req.body;
+            const userId = req.user.id_usuario;
 
-            if (!nome || !emoji || !cor1 || !cor2) {
+            if (!name || !emoji || !color1 || !color2) {
                 res.status(400);
                 res.json({ error: validationError });
                 return;
             }
 
             console.log("Adicionar evento " + nome);
-            const evento = await insertEvent(req.user.id_usuario, nome, emoji, cor1, cor2);
+            const evento = await insertEvent(userId, name, emoji, color1, color2);
 
             if (evento) {
                 res.status(200);

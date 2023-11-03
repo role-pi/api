@@ -4,9 +4,9 @@ import { verifyToken } from '../middlewares/verification.js';
 
 const router = express.Router()
 
-router.get('/:id_transaction', verifyToken, getTransaction);
+router.get('/:transaction_id', verifyToken, getTransaction);
 router.post('/', verifyToken, postTransaction);
 router.put('/', verifyToken, putTransaction);
-router.delete('/:id_transaction', verifyToken, deleteTransaction);
+router.delete('/:transaction_id', verifyToken, deleteTransaction);
 
 export default router;

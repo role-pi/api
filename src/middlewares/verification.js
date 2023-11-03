@@ -4,7 +4,7 @@ import client from '../utils/database.js';
 export const verifyToken = (req, res, next) => {
     if (req.headers &&
         req.headers.authorization &&
-        req.headers.authorization.split(' ')[0] === 'JWT') {
+        req.headers.authorization.split(' ')[0] === 'Bearer') {
         jwt.verify(req.headers.authorization.split(' ')[1], process.env.API_SECRET, function (err, decode) {
             if (err || decode == undefined) {
                 req.user = undefined;

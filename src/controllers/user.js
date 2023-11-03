@@ -29,7 +29,7 @@ async function getUsersInEvent(req, res, next) {
     if (req.user) {
         try {
             const userId = req.user.id_usuario;
-            const eventId = req.params.id_evento;
+            const eventId = req.params.event_id;
             console.log("Requerer usuários de evento " + eventId);
 
             res.json(await selectUsersByEventId(eventId));
@@ -50,9 +50,9 @@ async function putUser(req, res, next) {
             console.log("Atualizar usuario " + userId);
 
             const { nome, email } = req.body;
-            const resultado = await updateUsuario(userId, nome, email)
+            const result = await updateUsuario(userId, nome, email)
             res.status(200);
-            res.json(resultado);
+            res.json(result);
         } catch(error) {
             res.status(500);
             res.json({ error: putError });

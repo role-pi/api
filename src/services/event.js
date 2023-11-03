@@ -57,13 +57,13 @@ async function selectEvent(userId, eventId) {
     return null;
 }
 
-async function insertEvent(userId, nome, emoji, cor1, cor2) {
+async function insertEvent(userId, name, emoji, color1, color2) {
     var res;
 
     if (userId) {
         res = await client.query(`
             INSERT INTO eventos (nome, emoji, cor_1, cor_2) VALUES (?, ?, ?, ?)
-        `, [nome, emoji, cor1, cor2]);
+        `, [name, emoji, color1, color2]);
 
         if (!res) {
             return null;
@@ -78,26 +78,26 @@ async function insertEvent(userId, nome, emoji, cor1, cor2) {
     return null;
 }
 
-async function updateEvent(eventId, nome, emoji, cor1, cor2, dataInicio, dataFim) {
+async function updateEvent(eventId, name, emoji, color1, color2, startDate, endDate) {
     var res;
 
     if (eventId) {
-        if (dataInicio && dataFim) {
+        if (startDate && endDate) {
             res = await client.query(`
                 UPDATE eventos SET nome = ?, emoji = ?, cor_1 = ?, cor_2 = ?, data_inicio = ?, data_fim = ? WHERE id_evento = ?
-            `, [nome, emoji, cor1, cor2, dataInicio, dataFim, eventId]);
-        } else if (dataInicio) {
+            `, [name, emoji, color1, color2, startDate, endDate, eventId]);
+        } else if (startDate) {
             res = await client.query(`
                 UPDATE eventos SET nome = ?, emoji = ?, cor_1 = ?, cor_2 = ?, data_inicio = ? WHERE id_evento = ?
-            `, [nome, emoji, cor1, cor2, dataInicio, eventId]);
-        }  else if (dataFim) {
+            `, [name, emoji, color1, color2, startDate, eventId]);
+        }  else if (endDate) {
             res = await client.query(`
                 UPDATE eventos SET nome = ?, emoji = ?, cor_1 = ?, cor_2 = ?, data_fim = ? WHERE id_evento = ?
-            `, [nome, emoji, cor1, cor2, dataFim, eventId]);
+            `, [name, emoji, color1, color2, endDate, eventId]);
         } else {
             res = await client.query(`
                 UPDATE eventos SET nome = ?, emoji = ?, cor_1 = ?, cor_2 = ? WHERE id_evento = ?
-            `, [nome, emoji, cor1, cor2, eventId]);
+            `, [name, emoji, color1, color2, eventId]);
         }
 
         if (res) {
@@ -116,9 +116,9 @@ async function removeEvent(userId, eventId){
             DELETE eventos
             FROM eventos
             INNER JOIN eventos_has_usuarios ON eventos.id_evento = eventos_has_usuarios.eventos_id_evento
-            WHERE eventos.id_evento = ?
-            AND eventos_has_usuarios.usuarios_id_usuario = ?;
-        `, [eventId, userId])
+            WHERE eventos_has_usuarios.usuarios_id_usuario = ?
+            AND eventos.id_evento = ?;
+        `, [userId, eventId])
     }
 
     if (res) {

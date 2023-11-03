@@ -1,14 +1,14 @@
 import client from '../utils/database.js';
 
-async function selectItem(userId, idInsumo) {
+async function selectItem(userId, itemId) {
     var res;
 
-    if (idInsumo) {
+    if (userId, itemId) {
         res = await client.query(`
             SELECT *
             FROM insumos
             WHERE id_insumo = ?
-        `, [idInsumo]);
+        `, [itemId]);
 
         return res[0];
     }
@@ -39,11 +39,11 @@ async function selectItems(userId, eventId) {
     return [];
 }
 
-async function insertItem(userId, eventId, tipo, nome, notas, valor) {
-    if (userId, eventId, tipo, nome) {
+async function insertItem(userId, eventId, category, name, notes, amount) {
+    if (userId, eventId, category, name, notes, amount) {
         var res1 = await client.query(`
             INSERT INTO insumos (tipo, nome, notas, eventos_id_evento) VALUES (?, ?, ?, ?)
-        `, [tipo, nome, notas, eventId]);
+        `, [category, name, notes, eventId]);
         
         if (!res1) {
             return null;
@@ -51,7 +51,7 @@ async function insertItem(userId, eventId, tipo, nome, notas, valor) {
 
         var res2 = await client.query(`
             INSERT INTO transacoes (valor, data, usuarios_id_usuario, insumos_id_insumo) VALUES (?, ?, ?, ?)
-        `, [valor, new Date().toISOString().slice(0, 19).replace("T", " "), userId, res1[0].insertId]);
+        `, [amount, new Date().toISOString().slice(0, 19).replace("T", " "), userId, res1[0].insertId]);
 
         if (res2) {
             return [res1[0], res2[0]];
@@ -61,11 +61,11 @@ async function insertItem(userId, eventId, tipo, nome, notas, valor) {
     return null;
 }
 
-async function updateItem(userId, idInsumo, tipo, nome, notas) {
-    if (userId, idInsumo, tipo, nome, notas) {
+async function updateItem(userId, itemId, category, name, notes) {
+    if (userId, itemId, category, name, notes) {
         var res = await client.query(`
             UPDATE insumos SET tipo = ?, nome = ?, notas = ? WHERE id_insumo = ?
-        `, [tipo, nome, notas, idInsumo]);
+        `, [category, name, notes, itemId]);
         
         if (res) {
             return res[0];
@@ -75,13 +75,13 @@ async function updateItem(userId, idInsumo, tipo, nome, notas) {
     return null;
 }
 
-async function removeItem(userId, idInsumo) {
+async function removeItem(userId, itemId) {
     var res;
 
-    if (userId, idInsumo) {
+    if (userId, itemId) {
         res = await client.query(`
             DELETE FROM insumos WHERE id_insumo = ?
-        `, [idInsumo]);
+        `, [itemId]);
     }
 
     if (res) {

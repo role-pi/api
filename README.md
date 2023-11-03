@@ -40,17 +40,19 @@ Abaixo está uma lista das rotas implementadas:
 
 ## Rotas
 
+Para informações sobre autenticação, veja [Autenticação](#autenticação).
+
 - **/** – Retorna uma mensagem de boas-vindas.
 
 ### `/user`
 
 - GET **`/user`** – Retorna os usuários cadastrados. Requer autenticação. Parâmetros:
-    - q: Filtra os usuários por meio de uma string de busca
-    - eventId: Inclui um campo indicando se o usuário está associado ao evento do ID especificado
+    - q (string): Filtra os usuários por meio de uma string de busca
+    - eventId (int): Inclui um campo indicando se o usuário está associado ao evento do ID especificado
 - GET **`/user/{event_id}`** – Retorna os usuários associados ao evento de ID `event_id`. Requer autenticação.
 - PUT **`/user`** – Atualiza os dados do usuário autenticado. Requer autenticação. Parâmetros de corpo:
-    - nome: O novo nome do usuário
-    - email: O novo email do usuário
+    - nome (string): O novo nome do usuário
+    - email (string): O novo email do usuário
 - DELETE **`/user`** – Deleta o usuário autenticado. Requer autenticação.
 
 - POST **`/user/image`** – Atualiza a imagem do usuário autenticado. Requer autenticação. Parâmetros de corpo:
@@ -58,35 +60,80 @@ Abaixo está uma lista das rotas implementadas:
 
 - GET **`/user/login`** – Retorna os dados do usuário autenticado. Requer autenticação.
 - POST **`/user/signin`** – Cria uma nova conta do usuário ou tenta realizar um login. Quando executada, manda um código de verificação para o email do usuário. Parâmetros de corpo:
-    - email: O email do usuário
+    - email (string): O email do usuário
 - POST **`/user/verify`** – Verifica o código de verificação enviado para o email do usuário. Parâmetros de corpo:
-    - email: O email do usuário
-    - code: O código de verificação enviado para o email do usuário
+    - email (string): O email do usuário
+    - code (string): O código de verificação enviado para o email do usuário
 
 ### `/event`
-
-router.get('/:id_evento?', verifyToken, getEvents);
-router.get('/:id_evento/insumos', verifyToken, getItems);
-router.post('/', verifyToken, postEvent);
-router.put('/', verifyToken, putEvent);
-router.delete('/:id_evento', verifyToken, deleteEvent);
 
 - GET **`/event/{event_id?}`** – Retorna os eventos cadastrados, ou o evento de ID `event_id` se especificado. Requer autenticação.
 - GET **`/event/{event_id}/items`** – Retorna os insumos associados ao evento de ID `event_id`. Requer autenticação.
 - POST **`/event`** – Cria um novo evento. Requer autenticação. Parâmetros de corpo:
-    - nome: O nome do evento
-    - emoji: O emoji do evento
-    - cor1: A cor primária do evento
-    - cor2: A cor secundária do evento
+    - name (string): O nome do evento
+    - emoji (string): O emoji do evento
+    - color1 (string): A cor primária do evento
+    - color2 (string): A cor secundária do evento
 - PUT **`/event`** – Atualiza os dados do evento especificado. Requer autenticação. Parâmetros de corpo:
-    - eventId: o ID do evento a ser atualizado
-    - nome: O novo nome do evento
-    - emoji: O novo emoji do evento
-    - cor1: A nova cor primária do evento
-    - cor2: A nova cor secundária do evento
-    - dataInicio: A nova data de início do evento
-    - dataFim: A nova data de fim do evento
+    - eventId (int): o ID do evento a ser atualizado
+    - name (string): O novo nome do evento
+    - emoji (string): O novo emoji do evento
+    - color1 (string): A nova cor primária do evento
+    - color2 (string): A nova cor secundária do evento
+    - startDate (string): A nova data de início do evento
+    - endDate (string): A nova data de fim do evento
 - DELETE **`/event/{event_id}`** – Deleta o evento de ID `event_id`. Requer autenticação.
 
 
-Se a API foi inicializada corretamente, você poderá, por exemplo, listar todos os usuários do primeiro evento com `http://localhost:3000/usuarios?eventId=1` no próprio navegador.
+### `/item`
+
+router.get('/:item_id', verifyToken, getItem);
+router.get('/:item_id/transactions', verifyToken, getTransactions);
+router.post('/', verifyToken, postItem);
+router.put('/', verifyToken, putItem);
+router.delete('/:item_id', verifyToken, deleteItem);
+
+- GET **`/item/{item_id}`** – Retorna os dados do insumo de ID `item_id`. Requer autenticação.
+- GET **`/item/{item_id}/transactions`** – Retorna as transações associadas ao insumo de ID `item_id`. Requer autenticação.
+- POST **`/item`** – Cria um novo insumo. Requer autenticação. Parâmetros de corpo:
+    - category (int): A categoria do insumo
+    - name (string): O nome do insumo
+    - notes (string): As notas do insumo
+- PUT **`/item`** – Atualiza os dados do insumo especificado. Requer autenticação. Parâmetros de corpo:
+    - itemId (int): o ID do insumo a ser atualizado
+    - category (int): A nova categoria do insumo
+    - name (string): O novo nome do insumo
+    - notes (string): As novas notas do insumo
+- DELETE **`/item/{item_id}`** – Deleta o insumo de ID `item_id`. Requer autenticação.
+
+
+### `/transaction`
+
+router.get('/:transaction_id', verifyToken, getTransaction);
+router.post('/', verifyToken, postTransaction);
+router.put('/', verifyToken, putTransaction);
+router.delete('/:transaction_id', verifyToken, deleteTransaction);
+
+- GET **`/transaction/{transaction_id}`** – Retorna os dados da transação de ID `transaction_id`. Requer autenticação.
+- POST **`/transaction`** – Cria uma nova transação. Requer autenticação. Parâmetros de corpo:
+    - amount (double): O valor da transação
+    - date (string): A data da transação
+    - itemId (int): O ID do insumo associado à transação
+    - newUserId (int): O ID do usuário associado à transação
+- PUT **`/transaction`** – Atualiza os dados da transação especificada. Requer autenticação. Parâmetros de corpo:
+    - transactionId (int): o ID da transação a ser atualizada
+    - amount (double): O valor da transação
+    - date (string): A data da transação
+    - newUserId (int): O ID do usuário associado à transação
+- DELETE **`/transaction/{transaction_id}`** – Deleta a transação de ID `transaction_id`. Requer autenticação.
+
+## Autenticação
+
+Para autenticar-se, é necessário enviar um token JWT no cabeçalho da requisição. Para obter um token, é necessário enviar uma requisição POST para a rota `/user/signin` com o email do usuário. Isso enviará um código de verificação para o email do usuário. Para verificar o código, é necessário enviar uma requisição POST para a rota `/user/verify` com o email e o código de verificação. Isso retornará um token JWT que pode ser utilizado para autenticar-se nas rotas que requerem autenticação.''
+
+O cabeçalho deverá ter o seguinte formato:
+
+```http
+Content-Type: application/json
+Authorization: Bearer <token>
+```

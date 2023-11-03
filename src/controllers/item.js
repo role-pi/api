@@ -4,15 +4,15 @@ import { postError, putError, deleteError, validationError, authenticationError,
 async function getItem(req, res, next) {
     if (req.user) {
         try {
-            const idInsumo = req.params.id_insumo;
+            const itemId = req.params.item_id;
             const userId = req.user.id_usuario;
             
-            if (!idInsumo) {
+            if (!itemId) {
                 res.status(400);
                 res.json({ error: validationError });
             }
 
-            const insumo = await selectItem(userId, idInsumo);
+            const insumo = await selectItem(userId, itemId);
             res.json(insumo);
         } catch (error) {
             res.status(500);
@@ -29,7 +29,7 @@ async function getItem(req, res, next) {
 async function getItems(req, res, next) {
     if (req.user) {
         try {
-            const userId = req.user.id_usuario;
+            const userId = req.user.user_id;
             const eventId = req.params.event_id;
             console.log("Requerer insumos de evento " + eventId);
 
@@ -54,14 +54,14 @@ async function getItems(req, res, next) {
 async function deleteItem(req, res, next) {
     if (req.user) {
         try {
-            const idInsumo = req.params.id_insumo;
+            const itemId = req.params.item_id;
             const userId = req.user.id_usuario;
 
-            console.log("Remover insumo " + idInsumo + " com usuário " + userId);
+            console.log("Remover insumo " + itemId + " com usuário " + userId);
             
-            const resultado = await removeItem(userId, idInsumo);
+            const result = await removeItem(userId, itemId);
             res.status(200);
-            res.json(resultado);
+            res.json(result);
             return;
         } catch (error) {
             res.status(500);
@@ -80,19 +80,19 @@ async function deleteItem(req, res, next) {
 async function putItem(req, res, next) {
     if (req.user) {
         try {
-            const { idInsumo, tipo, nome, notas } = req.body;
+            const { itemId, category, name, notes } = req.body;
             const userId = req.user.id_usuario;
 
-            if (!idInsumo || !tipo || !nome || !notas) {
+            if (!itemId || !category || !name || !notes) {
                 res.status(400);
                 res.json({ error: validationError });
                 return;
             }
 
-            console.log("Editar insumo " + nome);
-            const insumo = await updateItem(userId, idInsumo, tipo, nome, notas);
-            if (insumo) {
-                res.json(insumo);
+            console.log("Editar insumo " + name);
+            const item = await updateItem(userId, itemId, category, name, notes);
+            if (item) {
+                res.json(item);
                 return;
             }
         } catch (error) {
@@ -112,20 +112,20 @@ async function putItem(req, res, next) {
 async function postItem(req, res, next) {
     if (req.user) {
         try {
-            const { eventId, tipo, nome, notas, valor } = req.body;
+            const { eventId, category, name, notes, amount } = req.body;
             const userId = req.user.id_usuario;
 
-            if (!eventId || !tipo || !nome || !notas || !valor) {
+            if (!eventId || !category || !name || !notes || !amount) {
                 res.status(400);
                 res.json({ error: validationError });
                 return;
             }
 
-            console.log("Adicionar insumo " + nome);
-            const insumo = await insertItem(userId, eventId, tipo, nome, notas, valor);
+            console.log("Adicionar insumo " + name);
+            const item = await insertItem(userId, eventId, category, name, notes, amount);
 
-            if (insumo) {
-                res.json(insumo);
+            if (item) {
+                res.json(item);
                 return;
             }
         } catch (error) {

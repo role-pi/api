@@ -55,24 +55,24 @@ async function insertUser(email) {
     return query[0].insertId;
 }
 
-async function updateUsuario(idUsuario, nome, email) {
+async function updateUsuario(userId, name, email) {
     var query = await client.query(`
     UPDATE usuarios SET nome = ?, email = ? WHERE id_usuario = ?
-    `, [nome, email, idUsuario]);
+    `, [name, email, userId]);
     return query[0].insertId;
 }
 
-async function updateProfilePictureURL(idUsuario, url) {
+async function updateProfilePictureURL(userId, url) {
     var query = await client.query(`
     UPDATE usuarios SET foto_de_perfil_url = ? WHERE id_usuario = ?
-    `, [url, idUsuario]);
+    `, [url, userId]);
     return query[0].insertId;
 }
 
-async function removeUser(idUsuario) {
+async function removeUser(userId) {
     var query = await client.query(`
     DELETE FROM usuarios WHERE id_usuario = ?
-    `, [idUsuario]);
+    `, [userId]);
 
     if (res) {
         return res[0];
