@@ -42,39 +42,37 @@ Abaixo está uma lista das rotas implementadas:
 
 Para informações sobre autenticação, veja [Autenticação](#autenticação).
 
-- **/** – Retorna uma mensagem de boas-vindas.
-
 ### `/user`
 
-- GET **`/user`** – Retorna os usuários cadastrados. Requer autenticação. Parâmetros:
+- ** GET`/user`** – Retorna os usuários cadastrados. Requer autenticação. Parâmetros:
     - q (string): Filtra os usuários por meio de uma string de busca
     - eventId (int): Inclui um campo indicando se o usuário está associado ao evento do ID especificado
-- GET **`/user/{event_id}`** – Retorna os usuários associados ao evento de ID `event_id`. Requer autenticação.
-- PUT **`/user`** – Atualiza os dados do usuário autenticado. Requer autenticação. Parâmetros de corpo:
+- ** GET`/user/{event_id}`** – Retorna os usuários associados ao evento de ID `event_id`. Requer autenticação.
+- ** PUT`/user`** – Atualiza os dados do usuário autenticado. Requer autenticação. Parâmetros de corpo:
     - nome (string): O novo nome do usuário
     - email (string): O novo email do usuário
-- DELETE **`/user`** – Deleta o usuário autenticado. Requer autenticação.
+- ** DELETE`/user`** – Deleta o usuário autenticado. Requer autenticação.
 
-- POST **`/user/image`** – Atualiza a imagem do usuário autenticado. Requer autenticação. Parâmetros de corpo:
+- ** POST`/user/image`** – Atualiza a imagem do usuário autenticado. Requer autenticação. Parâmetros de corpo:
     - image: A nova imagem do usuário, em formato multipart/form-data
 
-- GET **`/user/login`** – Retorna os dados do usuário autenticado. Requer autenticação.
-- POST **`/user/signin`** – Cria uma nova conta do usuário ou tenta realizar um login. Quando executada, manda um código de verificação para o email do usuário. Parâmetros de corpo:
+- ** GET`/user/login`** – Retorna os dados do usuário autenticado. Requer autenticação.
+- ** POST`/user/signin`** – Cria uma nova conta do usuário ou tenta realizar um login. Quando executada, manda um código de verificação para o email do usuário. Parâmetros de corpo:
     - email (string): O email do usuário
-- POST **`/user/verify`** – Verifica o código de verificação enviado para o email do usuário. Parâmetros de corpo:
+- ** POST`/user/verify`** – Verifica o código de verificação enviado para o email do usuário. Parâmetros de corpo:
     - email (string): O email do usuário
     - code (string): O código de verificação enviado para o email do usuário
 
 ### `/event`
 
-- GET **`/event/{event_id?}`** – Retorna os eventos cadastrados, ou o evento de ID `event_id` se especificado. Requer autenticação.
-- GET **`/event/{event_id}/items`** – Retorna os insumos associados ao evento de ID `event_id`. Requer autenticação.
-- POST **`/event`** – Cria um novo evento. Requer autenticação. Parâmetros de corpo:
+- ** GET`/event/{event_id?}`** – Retorna os eventos cadastrados, ou o evento de ID `event_id` se especificado. Requer autenticação.
+- ** GET`/event/{event_id}/items`** – Retorna os insumos associados ao evento de ID `event_id`. Requer autenticação.
+- ** POST`/event`** – Cria um novo evento. Requer autenticação. Parâmetros de corpo:
     - name (string): O nome do evento
     - emoji (string): O emoji do evento
     - color1 (string): A cor primária do evento
     - color2 (string): A cor secundária do evento
-- PUT **`/event`** – Atualiza os dados do evento especificado. Requer autenticação. Parâmetros de corpo:
+- ** PUT`/event`** – Atualiza os dados do evento especificado. Requer autenticação. Parâmetros de corpo:
     - eventId (int): o ID do evento a ser atualizado
     - name (string): O novo nome do evento
     - emoji (string): O novo emoji do evento
@@ -82,7 +80,7 @@ Para informações sobre autenticação, veja [Autenticação](#autenticação).
     - color2 (string): A nova cor secundária do evento
     - startDate (string): A nova data de início do evento
     - endDate (string): A nova data de fim do evento
-- DELETE **`/event/{event_id}`** – Deleta o evento de ID `event_id`. Requer autenticação.
+- ** DELETE`/event/{event_id}`** – Deleta o evento de ID `event_id`. Requer autenticação.
 
 
 ### `/item`
@@ -93,39 +91,34 @@ router.post('/', verifyToken, postItem);
 router.put('/', verifyToken, putItem);
 router.delete('/:item_id', verifyToken, deleteItem);
 
-- GET **`/item/{item_id}`** – Retorna os dados do insumo de ID `item_id`. Requer autenticação.
-- GET **`/item/{item_id}/transactions`** – Retorna as transações associadas ao insumo de ID `item_id`. Requer autenticação.
-- POST **`/item`** – Cria um novo insumo. Requer autenticação. Parâmetros de corpo:
+- ** GET`/item/{item_id}`** – Retorna os dados do insumo de ID `item_id`. Requer autenticação.
+- ** GET`/item/{item_id}/transactions`** – Retorna as transações associadas ao insumo de ID `item_id`. Requer autenticação.
+- ** POST`/item`** – Cria um novo insumo. Requer autenticação. Parâmetros de corpo:
     - category (int): A categoria do insumo
     - name (string): O nome do insumo
     - notes (string): As notas do insumo
-- PUT **`/item`** – Atualiza os dados do insumo especificado. Requer autenticação. Parâmetros de corpo:
+- ** PUT`/item`** – Atualiza os dados do insumo especificado. Requer autenticação. Parâmetros de corpo:
     - itemId (int): o ID do insumo a ser atualizado
     - category (int): A nova categoria do insumo
     - name (string): O novo nome do insumo
     - notes (string): As novas notas do insumo
-- DELETE **`/item/{item_id}`** – Deleta o insumo de ID `item_id`. Requer autenticação.
+- ** DELETE`/item/{item_id}`** – Deleta o insumo de ID `item_id`. Requer autenticação.
 
 
 ### `/transaction`
 
-router.get('/:transaction_id', verifyToken, getTransaction);
-router.post('/', verifyToken, postTransaction);
-router.put('/', verifyToken, putTransaction);
-router.delete('/:transaction_id', verifyToken, deleteTransaction);
-
-- GET **`/transaction/{transaction_id}`** – Retorna os dados da transação de ID `transaction_id`. Requer autenticação.
-- POST **`/transaction`** – Cria uma nova transação. Requer autenticação. Parâmetros de corpo:
+- ** GET`/transaction/{transaction_id}`** – Retorna os dados da transação de ID `transaction_id`. Requer autenticação.
+- ** POST`/transaction`** – Cria uma nova transação. Requer autenticação. Parâmetros de corpo:
     - amount (double): O valor da transação
     - date (string): A data da transação
     - itemId (int): O ID do insumo associado à transação
     - newUserId (int): O ID do usuário associado à transação
-- PUT **`/transaction`** – Atualiza os dados da transação especificada. Requer autenticação. Parâmetros de corpo:
+- ** PUT`/transaction`** – Atualiza os dados da transação especificada. Requer autenticação. Parâmetros de corpo:
     - transactionId (int): o ID da transação a ser atualizada
     - amount (double): O valor da transação
     - date (string): A data da transação
     - newUserId (int): O ID do usuário associado à transação
-- DELETE **`/transaction/{transaction_id}`** – Deleta a transação de ID `transaction_id`. Requer autenticação.
+- ** DELETE`/transaction/{transaction_id}`** – Deleta a transação de ID `transaction_id`. Requer autenticação.
 
 ## Autenticação
 
