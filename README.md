@@ -1,13 +1,13 @@
 # api
 
-![image](https://img.shields.io/badge/Railway-Active-success?logo=railway&logoColor=white)
+![image](https://img.shields.io/badge/Digital_Ocean-Active-blue?logo=digitalocean&logoColor=white)
 
-**✨ Esta API está disponível remotamente em https://api-production-c82a.up.railway.app/.**
+Esta API está disponível remotamente em [https://api-production-c82a.up.railway.app/](https://api-6hcvm.ondigitalocean.app/) ✨
 
 ---
 
 
-Esse projeto contém o código da API RESTful para comunicação da aplicação cliente do rolê com a base de dados SQL. Ele utiliza o framework [Express](https://expressjs.com/pt-br/) para a criação do servidor em uma instância do [Node.js](https://nodejs.org/en/) que se comunica com o banco de dados através do [mysql2](https://github.com/sidorares/node-mysql2).
+Este projeto contém o código da API RESTful para comunicação da aplicação cliente do rolê com a base de dados SQL. Ele utiliza o framework [Express](https://expressjs.com/pt-br/) para a criação do servidor em uma instância do [Node.js](https://nodejs.org/en/) que se comunica com o banco de dados através do [mysql2](https://github.com/sidorares/node-mysql2).
 
 ## Instalação
 
