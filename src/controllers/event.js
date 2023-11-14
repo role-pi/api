@@ -65,7 +65,7 @@ async function putEvent(req, res, next) {
             const { eventId, name, emoji, color1, color2, startDate, endDate } = req.body;
             const userId = req.user.id_usuario;
 
-            console.log("Atualizar evento " + nome);
+            console.log("Atualizar evento " + name);
 
             const result = await updateEvent(eventId, name, emoji, color1, color2, startDate, endDate);
             res.status(200);
@@ -97,7 +97,7 @@ async function postEvent(req, res, next) {
                 return;
             }
 
-            console.log("Adicionar evento " + nome);
+            console.log("Adicionar evento " + name);
             const evento = await insertEvent(userId, name, emoji, color1, color2);
 
             if (evento) {
