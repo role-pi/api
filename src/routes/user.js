@@ -4,16 +4,15 @@ import { verifyToken } from '../middlewares/verification.js';
 import { upload } from '../services/images.js';
 
 const router = express.Router()
+// Account management
+router.get('/login', verifyToken, loginUser);
+router.post('/signin', signInUser);
+router.post('/verify', verifyUser);
 
 router.get('/', verifyToken, getUsers);
 router.get('/:event_id', verifyToken, getUsersInEvent);
 router.put('/', verifyToken, putUser);
 router.delete('/:user_id', verifyToken, deleteUser);
-
-// Account management
-router.get('/login', verifyToken, loginUser);
-router.post('/signin', signInUser);
-router.post('/verify', verifyUser);
 
 // Upload profile picture
 router.post('/image', verifyToken, upload.single('profile'), uploadProfilePicture);

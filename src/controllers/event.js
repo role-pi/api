@@ -1,4 +1,4 @@
-import { selectEvents, selectEvent, insertEvent, removeEvent, updateEvent } from '../services/event.js';
+import { selectEvents, selectEvent, insertEvent, removeEvent, updateEvent, updateUsers } from '../services/event.js';
 import { postError, putError, deleteError, validationError, authenticationError, getError } from '../utils/strings.js';
 
 async function getEvents(req, res, next) {
@@ -85,6 +85,33 @@ async function putEvent(req, res, next) {
     }
 }
 
+async function putUsers(req, res, next) {
+    if (req.user) {
+        try {
+            const eventId = req.params.event_id;
+            const { addUsers, removeUsers } = req.body;
+            const userId = req.user.id_usuario;
+
+            console.log("Atualizar participantes de evento " + eventId);
+
+            const result = await updateUsers(userId, eventId, addUsers, removeUsers);
+            res.status(200);
+            res.json(result);
+            return;
+        } catch (error) {
+            res.status(500);
+            res.json({ error: getError });
+            console.log(error);
+        }
+
+        res.status(500);
+        res.json({ error: putError });
+    } else {
+        res.status(401);
+        res.json({ error: authenticationError });
+    }
+}
+
 async function postEvent(req, res, next) {
     if (req.user) {
         try {
@@ -119,4 +146,4 @@ async function postEvent(req, res, next) {
     }
 }
 
-export { getEvents, postEvent, putEvent, deleteEvent };
+export { getEvents, postEvent, putEvent, putUsers, deleteEvent };

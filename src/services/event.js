@@ -108,6 +108,40 @@ async function updateEvent(eventId, name, emoji, color1, color2, startDate, endD
     return null;
 }
 
+async function updateUsers(userId, eventId, addUsers, removeUsers) {
+    let addedCount = 0;
+    let removedCount = 0;
+
+    if (eventId, addUsers, removeUsers) {
+        if (addUsers.length > 0) {
+            const addValues = addUsers.map(userId => `(${eventId}, ${userId})`).join(',');
+            const addQuery = `
+                INSERT IGNORE INTO eventos_has_usuarios (eventos_id_evento, usuarios_id_usuario) VALUES ${addValues}
+            `;
+            const addResult = await client.query(addQuery);
+
+            if (addResult && addResult[0]) {
+                addedCount = addResult.affectedRows || 0;
+            }
+        }
+
+
+        if (removeUsers.length > 0) {
+            const removeValues = removeUsers.map(userId => `(${eventId}, ${userId})`).join(',');
+            const removeQuery = `
+                DELETE FROM eventos_has_usuarios WHERE (eventos_id_evento, usuarios_id_usuario) IN (${removeValues})
+            `;
+            const removeResult = await client.query(removeQuery);
+
+            if (removeResult && removeResult[0]) {
+                removedCount = removeResult.affectedRows || 0;
+            }
+        }
+    }
+
+    return [ addedCount, removedCount ];
+}
+
 async function removeEvent(userId, eventId){
     var res;
 
@@ -128,4 +162,4 @@ async function removeEvent(userId, eventId){
     return null;
 }
 
-export { selectEvents, selectEvent, insertEvent, updateEvent, removeEvent };
+export { selectEvents, selectEvent, insertEvent, updateEvent, updateUsers, removeEvent };
