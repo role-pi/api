@@ -49,8 +49,8 @@ async function putUser(req, res, next) {
             const userId = req.user.id_usuario;
             console.log("Atualizar usuario " + userId);
 
-            const { nome, email } = req.body;
-            const result = await updateUsuario(userId, nome, email)
+            const { nome, email, pixKey } = req.body;
+            const result = await updateUsuario(userId, nome, email, pixKey)
             res.status(200);
             res.json(result);
         } catch(error) {
@@ -171,4 +171,4 @@ async function uploadProfilePicture(req, res, next) {
     res.json({ error: uploadError });
 }
 
-export { getUsers, getUsersInEvent, updateUsuario, signInUser, verifyUser, loginUser, deleteUser, putUser, uploadProfilePicture};
+export { getUsers, getUsersInEvent, signInUser, verifyUser, loginUser, deleteUser, putUser, uploadProfilePicture};

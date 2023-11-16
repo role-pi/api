@@ -19,7 +19,7 @@ async function selectItem(userId, itemId) {
 async function selectItems(userId, eventId) {
     var res;
 
-    if (eventId) {
+    if (userId, eventId) {
         res = await client.query(`
             SELECT insumos.*,
             IFNULL(SUM(transacoes.valor), 0) AS valor_total,

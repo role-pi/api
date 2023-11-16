@@ -55,10 +55,10 @@ async function insertUser(email) {
     return query[0].insertId;
 }
 
-async function updateUsuario(userId, name, email) {
+async function updateUsuario(userId, name, email, pixKey) {
     var query = await client.query(`
-    UPDATE usuarios SET nome = ?, email = ? WHERE id_usuario = ?
-    `, [name, email, userId]);
+    UPDATE usuarios SET nome = ?, email = ?, chave_pix = ? WHERE id_usuario = ?
+    `, [name, email, pixKey, userId]);
     return query[0].insertId;
 }
 
