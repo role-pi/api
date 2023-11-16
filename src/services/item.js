@@ -32,7 +32,6 @@ async function selectItems(userId, eventId) {
             GROUP BY insumos.id_insumo
             ORDER BY data DESC
         `, [userId, eventId]);
-
         return res[0];
     }
     

@@ -29,7 +29,7 @@ async function getItem(req, res, next) {
 async function getItems(req, res, next) {
     if (req.user) {
         try {
-            const userId = req.user.user_id;
+            const userId = req.user.id_usuario;
             const eventId = req.params.event_id;
             console.log("Requerer insumos de evento " + eventId);
 

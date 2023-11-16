@@ -4,6 +4,7 @@ import { verifyToken } from '../middlewares/verification.js';
 import { upload } from '../services/images.js';
 
 const router = express.Router()
+
 // Account management
 router.get('/login', verifyToken, loginUser);
 router.post('/signin', signInUser);
