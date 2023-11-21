@@ -173,4 +173,4 @@ async function postEvent(req, res, next) {
     }
 }
 
-export { getEvents, postEvent, putEvent, putUsers, deleteEvent };
+export { getEvents, postEvent, putEvent, putUsers, deleteUser, deleteEvent };

@@ -36,8 +36,8 @@ async function selectTransactions(userId, itemId) {
 async function insertTransaction(userId, amount, date, itemId, newUserId) {
     if (amount, date, itemId, newUserId) {
         var res = await client.query(`
-            INSERT INTO transacoes (valor, data, id_insumo, id_usuario) VALUES (?, ?, ?, ?)
-        `, [amount, date, itemId, newUserId]);
+            INSERT INTO transacoes (valor, data, usuarios_id_usuario, insumos_id_insumo) VALUES (?, ?, ?, ?)
+        `, [amount, date, newUserId, itemId]);
 
         if (res) {
             return res[0];
