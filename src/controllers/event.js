@@ -47,7 +47,7 @@ async function deleteEvent(req, res, next) {
             return;
         } catch (error) {
             res.status(500);
-            res.json({ error: getError });
+            res.json({ error: deleteError });
             console.log(error);
         }
 
@@ -73,7 +73,7 @@ async function putEvent(req, res, next) {
             return;
         } catch (error) {
             res.status(500);
-            res.json({ error: getError });
+            res.json({ error: putError });
             console.log(error);
         }
 
@@ -100,12 +100,39 @@ async function putUsers(req, res, next) {
             return;
         } catch (error) {
             res.status(500);
-            res.json({ error: getError });
+            res.json({ error: putError });
             console.log(error);
         }
 
         res.status(500);
         res.json({ error: putError });
+    } else {
+        res.status(401);
+        res.json({ error: authenticationError });
+    }
+}
+
+async function deleteUser(req, res, next) {
+    if (req.user) {
+        try {
+            const eventId = req.params.event_id;
+            const userId = req.user.id_usuario;
+            const removeUserId = req.params.user_id;
+
+            console.log("Atualizar participantes de evento " + eventId);
+
+            const result = await updateUsers(userId, eventId, [], [removeUserId]);
+            res.status(200);
+            res.json(result);
+            return;
+        } catch (error) {
+            res.status(500);
+            res.json({ error: deleteError });
+            console.log(error);
+        }
+
+        res.status(500);
+        res.json({ error: deleteError });
     } else {
         res.status(401);
         res.json({ error: authenticationError });
@@ -134,7 +161,7 @@ async function postEvent(req, res, next) {
             }
         } catch (error) {
             res.status(500);
-            res.json({ error: getError });
+            res.json({ error: postError });
             console.log(error);
         }
 

@@ -130,7 +130,7 @@ async function postTransaction(req, res, next) {
             }
         } catch (error) {
             res.status(500);
-            res.json({ error: getError });
+            res.json({ error: postError });
             console.log(error);
         }
 
