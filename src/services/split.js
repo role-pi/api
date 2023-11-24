@@ -1,6 +1,6 @@
 import client from '../utils/database.js';
 
-async function splitCosts(userId, itemIds, userIds) {
+async function calculateSplitCosts(userId, itemIds, userIds) {
     if (userId) {
         var res = await client.query(`
             SELECT
@@ -100,4 +100,4 @@ async function splitCosts(userId, itemIds, userIds) {
     }
 }
 
-export { splitCosts };
+export { calculateSplitCosts };
