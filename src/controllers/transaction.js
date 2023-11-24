@@ -64,7 +64,7 @@ async function deleteTransaction(req, res, next) {
             return;
         } catch (error) {
             res.status(500);
-            res.json({ error: getError });
+            res.json({ error: deleteError });
             console.log(error);
         }
 
@@ -97,7 +97,7 @@ async function putTransaction(req, res, next) {
             }
         } catch (error) {
             res.status(500);
-            res.json({ error: getError });
+            res.json({ error: putError });
             console.log(error);
         }
 

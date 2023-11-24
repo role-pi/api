@@ -47,11 +47,11 @@ async function insertTransaction(userId, amount, date, itemId, newUserId) {
     return null;
 }
 
-async function updateTransaction(transactionId, amount, date, newUserId) {
+async function updateTransaction(userId, transactionId, amount, date, newUserId) {
     if (transactionId, amount, date, newUserId) {
         var res = await client.query(`
-            UPDATE transcoes SET valor = ?, data = ?, id_usuario = ? WHERE id_transacao = ?
-        `, [transactionId, amount, date, newUserId]);
+            UPDATE transacoes SET valor = ?, data = ?, usuarios_id_usuario = ? WHERE id_transacao = ?
+        `, [amount, date, newUserId, transactionId]);
 
         if (res) {
             return res[0];
