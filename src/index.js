@@ -6,10 +6,6 @@ import event from './routes/event.js';
 import item from './routes/item.js';
 import transaction from './routes/transaction.js';
 
-import { splitCosts } from './services/split.js';
-
-splitCosts(4, [1, 5, 6]);
-
 const app = express();
 dotenv.config();
 

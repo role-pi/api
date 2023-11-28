@@ -4,68 +4,42 @@ async function calculateSplitCosts(userId, itemIds, userIds) {
     if (userId) {
         var res = await client.query(`
             SELECT
-                transacoes.usuarios_id_usuario,
+                usuarios.*,
                 SUM(transacoes.valor) AS total
             FROM
                 transacoes
             JOIN
                 insumos ON transacoes.insumos_id_insumo = insumos.id_insumo
+            JOIN
+                usuarios ON transacoes.usuarios_id_usuario = usuarios.id_usuario
             WHERE
                 insumos.id_insumo IN (?)
             GROUP BY
                 transacoes.usuarios_id_usuario;
         `, [itemIds]);
 
-        // res = [
-        //     [
-        //         {
-        //             usuarios_id_usuario: 1,
-        //             total: 4,
-        //         },
-        //         {
-        //             usuarios_id_usuario: 2,
-        //             total: 7,
-        //         },
-        //         {
-        //             usuarios_id_usuario: 3,
-        //             total: 2,
-        //         },
-        //         {
-        //             usuarios_id_usuario: 4,
-        //             total: 7,
-        //         },
-        //         {
-        //             usuarios_id_usuario: 5,
-        //             total: 11,
-        //         }
-        //     ]
-        // ]
-
-        // userIds = [1, 2, 3, 4, 5, 6];
-
         var total = 0;
 
-        var totals = {};
+        var results = {};
         userIds.forEach(id => {
-            totals[id] = 0;
+            results[id] = {};
         });
 
         res[0].forEach(result => {
             total+= parseFloat(result.total);
-            var id = result.usuarios_id_usuario
-            if (id in totals) {
-                totals[id] = result.total;
+            var id = result.id_usuario;
+            if (id in results) {
+                results[id] = result;
             }
         });
 
         var average = total / userIds.length;
-        console.log(average);
 
         var deltas = [];
-        Object.entries(totals).forEach(([usuario, total]) => {
+        Object.entries(results).forEach(([id, result]) => {
             deltas.push({
-                usuario: usuario,
-                delta: total - average
+                result: result,
+                delta: result.total - average
             });
         });
 
@@ -89,14 +63,14 @@ async function calculateSplitCosts(userId, itemIds, userIds) {
             positiveDeltas.forEach(positiveDelta => {
                 var oweAmount = (-negativeDelta.delta)*positiveDelta.delta/totalPositive;
                 pending.push({
-                    from: negativeDelta.usuario,
-                    to: positiveDelta.usuario,
+                    from: negativeDelta.result,
+                    to: positiveDelta.result,
                     amount: Math.round(oweAmount*100)/100
                 });
             });
         });
 
-        console.log(pending);
+        return pending;
     }
 }
 

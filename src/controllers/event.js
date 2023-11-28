@@ -62,12 +62,12 @@ async function deleteEvent(req, res, next) {
 async function putEvent(req, res, next) {
     if (req.user) {
         try {
-            const { eventId, name, emoji, color1, color2, startDate, endDate } = req.body;
+            const { eventId, name, emoji, color1, color2, startDate, endDate, location_lat, location_lng, location_description } = req.body;
             const userId = req.user.id_usuario;
 
             console.log("Atualizar evento " + name);
 
-            const result = await updateEvent(eventId, name, emoji, color1, color2, startDate, endDate);
+            const result = await updateEvent(eventId, name, emoji, color1, color2, startDate, endDate, location_lat, location_lng, location_description);
             res.status(200);
             res.json(result);
             return;

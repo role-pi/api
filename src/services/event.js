@@ -78,27 +78,21 @@ async function insertEvent(userId, name, emoji, color1, color2) {
     return null;
 }
 
-async function updateEvent(eventId, name, emoji, color1, color2, startDate, endDate) {
+async function updateEvent(eventId, name, emoji, color1, color2, startDate, endDate, location_lat, location_lng, location_description) {
     var res;
 
     if (eventId) {
-        if (startDate && endDate) {
-            res = await client.query(`
-                UPDATE eventos SET nome = ?, emoji = ?, cor_1 = ?, cor_2 = ?, data_inicio = ?, data_fim = ? WHERE id_evento = ?
-            `, [name, emoji, color1, color2, startDate, endDate, eventId]);
-        } else if (startDate) {
-            res = await client.query(`
-                UPDATE eventos SET nome = ?, emoji = ?, cor_1 = ?, cor_2 = ?, data_inicio = ? WHERE id_evento = ?
-            `, [name, emoji, color1, color2, startDate, eventId]);
-        }  else if (endDate) {
-            res = await client.query(`
-                UPDATE eventos SET nome = ?, emoji = ?, cor_1 = ?, cor_2 = ?, data_fim = ? WHERE id_evento = ?
-            `, [name, emoji, color1, color2, endDate, eventId]);
-        } else {
-            res = await client.query(`
-                UPDATE eventos SET nome = ?, emoji = ?, cor_1 = ?, cor_2 = ? WHERE id_evento = ?
-            `, [name, emoji, color1, color2, eventId]);
+        startDate = startDate || null;
+        endDate = endDate || null;
+        var location_point = null;
+
+        if (location_lat && location_lng) {
+            location_point = `POINT(${location_lat}, ${location_lng})`;
         }
+
+        res = await client.query(`
+                UPDATE eventos SET nome = ?, emoji = ?, cor_1 = ?, cor_2 = ?, data_inicio = ?, data_fim = ?, location = ${location_point}, location_description = ? WHERE id_evento = ?
+            `, [name, emoji, color1, color2, startDate, endDate, location_description, eventId]);
 
         if (res) {
             return res[0];

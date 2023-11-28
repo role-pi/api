@@ -53,7 +53,7 @@ async function putUser(req, res, next) {
             const result = await updateUsuario(userId, nome, email, pixKey)
             res.status(200);
             res.json(result);
-        } catch(error) {
+        } catch (error) {
             res.status(500);
             res.json({ error: putError });
         }

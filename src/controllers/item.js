@@ -115,7 +115,9 @@ async function postItem(req, res, next) {
             const { eventId, category, name, notes, amount } = req.body;
             const userId = req.user.id_usuario;
 
-            if (!eventId || !category || !name || !notes || !amount) {
+            console.log(eventId, category, name, notes, amount);
+
+            if (!eventId || category === null || !name || !notes || !amount) {
                 res.status(400);
                 res.json({ error: validationError });
                 return;
@@ -130,7 +132,7 @@ async function postItem(req, res, next) {
             }
         } catch (error) {
             res.status(500);
-            res.json({ error: getError });
+            res.json({ error: postError });
             console.log(error);
         }
 
