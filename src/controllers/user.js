@@ -84,7 +84,6 @@ async function deleteUser(req, res, next) {
 
 async function loginUser(req, res, next) {
     const user = req.user;
-    console.log("Login usuário: " + user.nome);
     res.json({ user: user });
 }
 

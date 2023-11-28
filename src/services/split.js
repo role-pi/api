@@ -1,7 +1,7 @@
 import client from '../utils/database.js';
 
 async function calculateSplitCosts(userId, itemIds, userIds) {
-    if (userId) {
+    if (userId, itemIds, userIds) {
         var res = await client.query(`
             SELECT
                 usuarios.*,
