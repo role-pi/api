@@ -45,7 +45,7 @@ async function generateReport(userId) {
             insumos.id_insumo;
         `, [userId]);
 
-        return {total: res1, eventos: res2, insumos: res3};
+        return {total: res1[0], eventos: res2[0], insumos: res3[0]};
     }
 }
 

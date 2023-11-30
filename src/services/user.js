@@ -56,10 +56,16 @@ async function insertUser(email) {
 }
 
 async function updateUsuario(userId, name, email, pixKey) {
-    var query = await client.query(`
-    UPDATE usuarios SET nome = ?, email = ?, chave_pix = ? WHERE id_usuario = ?
-    `, [name, email, pixKey, userId]);
-    return query[0].insertId;
+    if (userId) {
+        var res = await client.query(`
+        UPDATE usuarios SET nome = ?, email = ?, chave_pix = ? WHERE id_usuario = ?
+        `, [name, email, pixKey, userId]);
+        
+        if (res) {
+            return res[0];
+        }
+    }
+    return null;
 }
 
 async function updateProfilePictureURL(userId, url) {
