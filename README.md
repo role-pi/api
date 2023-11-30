@@ -2,7 +2,7 @@
 
 ![image](https://img.shields.io/badge/Digital_Ocean-Active-blue?logo=digitalocean&logoColor=white)
 
-Esta API está disponível remotamente em [https://api-production-c82a.up.railway.app/](https://api-6hcvm.ondigitalocean.app/) ✨
+Esta API está disponível remotamente em [https://api-6hcvm.ondigitalocean.app/](https://api-6hcvm.ondigitalocean.app/) ✨
 
 ---
 
