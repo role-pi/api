@@ -33,7 +33,7 @@ async function generateReport(userId) {
         var res3 = await client.query(`
         SELECT
             insumos.tipo AS categoria,
-            COUNT(<column_name>) AS ocorrencias 
+            COUNT(insumos.tipo) AS ocorrencias 
         FROM
             usuarios
         JOIN

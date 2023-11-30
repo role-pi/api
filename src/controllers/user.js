@@ -47,10 +47,10 @@ async function putUser(req, res, next) {
     if (req.user) {
         try {
             const userId = req.user.id_usuario;
-            console.log("Atualizar usuario " + userId);
+            console.log("Atualizar usuário " + userId);
 
-            const { nome, email, pixKey } = req.body;
-            const result = await updateUsuario(userId, nome, email, pixKey)
+            const { name, email, pixKey } = req.body;
+            const result = await updateUsuario(userId, name, email, pixKey)
             res.status(200);
             res.json(result);
         } catch (error) {
